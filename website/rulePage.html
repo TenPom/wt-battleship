@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Battleship</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body id="bodyId">
+    <div>
+        <nav id="navBarRulePage"class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand">Battleship</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="#"><a href="index.html">Home</a></li>
+              <li><a href="#">Start new Game</a></li>
+              <li><a href="#">Restore last Game</a></li>
+               <li><a href="rulePage.html">Rules</a></li>
+            </ul>
+          </div>
+        </nav>
+    </div>
+    <div>
+        <img id="backgroundPic" src="battleship.png" alt="eine grafik"> 
+    </div>
+    <div>
+        <h2>The basic rules of Battleship</h2>
+        <div>
+            <h3 id="objective">Objective</h3>
+            <div>
+                <p id="rulePageText1">
+                    The object of Battleship is to try and sink all of the other player's before they
+                    sink all of your ships. All of the other player's ships are somewhere on his/her board.
+                    You try and hit them by calling out the coordinates of one of the squares on the board.
+                    The other player also tries to hit your ships by calling out coordinates.  Neither you 
+                    nor the other player can see the other's board so you must try to guess where they are.  
+                    Each board in the physical game has two grids:  the lower (horizontal) section for the player's 
+                    ships and the upper part (vertical during play) for recording the player's guesses.
+                </p>
+            </div>
+        </div>
+        <div>
+            <h3 id="startingNewGame">Starting a new Game</h3>
+            <div>
+                <p id="rulePageText2">
+                    Each player places the 5 ships somewhere on their board. 
+                    The 5 ships have the size of 2-6 fields. 
+                    The ships can only be placed vertically or horizontally. 
+                    Diagonal placement is not allowed. No part of a ship may hang off the edge of the board.  
+                    Ships may not overlap each other.  No ships may be placed on another ship. 
+                    Once the guessing begins, the players may not move the ships.
+
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
