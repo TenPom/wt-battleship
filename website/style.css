@@ -3,8 +3,10 @@ h1, h2, h3, #rulePageText1, #rulePageText2 {
 	position: absolute;
 	z-index: 1;
 	color: #ffffff;
-	font-family: courier;
+	font-family: airborne;
 	cursor: crosshair;
+	src: url('airborne.ttf') format('truetype');
+	text-shadow: 8px 7px 8px black;
 }
 
 h1 {
@@ -36,23 +38,24 @@ h2 {
 	width: 500px;
 }
 
-#rulePageText2 {
-	padding-top: 180px;
-	padding-left: 700px;
-	text-align: justify;
-	width: 1150px;
-}
-#backgroundPic {
+img {
 	position:fixed;  
 	width:100%; 
 	height:100%;
 	top: 0px;
 	left: 0px;
-	cursor: crosshair;
+	cursor: crosshair;}
+
+#rulePageText2 {
+	padding-top: 180px;
+	padding-left: 700px;
+	text-align: justify;
+	width: 1150px;
+	position: absolute;
 }
 
-#bodyId {
-	/*opacity: 0.6;*/
+#backgroundPicRulePage {
+	opacity: 0.9;
 }
 
 #menuRightGlyph {
