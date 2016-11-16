@@ -3,8 +3,8 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.MainController.index()
-GET     /battleship                 controllers.MainController.battleship()
+GET     /                           controllers.MainController.battleship()
+GET     /rules                      controllers.MainController.rules()
 GET     /battleship/:command        controllers.MainController.wuiTuiInterface(command:String)
 
 # Map static resources from the /public folder to the /assets URL path
