@@ -5,10 +5,14 @@ import de.htwg.battleship.aview.tui.TUI;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class Application extends Controller {
+public class MainController extends Controller {
 
 	public Result index() {
-		return ok("TOll!!");
+		return ok(views.html.index.render("Index Methode!"));
+	}
+	
+	public Result battleship() {
+	    return ok(views.html.battleship.render());
 	}
 
 	public Result wuiTuiInterface(String command) {
@@ -17,10 +21,4 @@ public class Application extends Controller {
 		return ok("" + tui.getTuiOutput());
 //		return ok(tui.toHTML());
 	}
-	
-//	public Result startGame() {
-//		Battleship.main(new String[0]);
-//		return ok("Spiel startet..");
-//	}
-
 }
