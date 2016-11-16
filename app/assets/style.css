@@ -1,4 +1,4 @@
-﻿
+
 h1, h2, h3, #rulePageText1, #rulePageText2 {
 	position: absolute;
 	z-index: 1;
@@ -55,7 +55,12 @@ img {
 }
 
 #backgroundPicRulePage {
-	opacity: 0.9;
+	filter: brightness(30%);
+	background: url(/assets/battleship.png);
+}
+
+#backgroundPicIndex {
+	background: url(/assets/battleship.png);
 }
 
 #menuRightGlyph {
