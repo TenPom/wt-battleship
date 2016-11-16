@@ -55,8 +55,12 @@ img {
 }
 
 #backgroundPicRulePage {
-	opacity: 0.9;
-	background-color: black;
+	filter: brightness(30%);
+	background: url(battleship.png);
+}
+
+#backgroundPicIndex {
+	background: url(battleship.png);
 }
 
 #menuRightGlyph {
