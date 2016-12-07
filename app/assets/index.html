@@ -11,9 +11,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1>Welcome to</h1>
+
     <div>
-        <nav id="navBarRulePage"class="navbar navbar-inverse">
+        <img id="backgroundPicIndex" src="battleship.png" alt="eine grafik"/> 
+    </div>
+
+    <div>
+        <nav id="navBar"class="navbar navbar-inverse">
           <div class="container-fluid">
             <div class="navbar-header">
               <a class="navbar-brand">Battleship</a>
@@ -27,10 +31,15 @@
           </div>
         </nav>
     </div>
-    <div>
-        <p>
-            <img id = "backgroundPicIndex" src ="battleship.png" alt="eine grafik">     
-        </p>
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-4"><h1>Welcome to</h1></div>
     </div>
+
+    <div class="row">
+        <button type="button" id="indexButtonStartNewGame" class="btn btn-lg col-md-2 col-md-offset-5" onClick="location.href='rulePage.html'"> Start new Game</button>
+    </div>
+    
 </body>
 </html>
