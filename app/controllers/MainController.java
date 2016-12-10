@@ -1,18 +1,18 @@
 package controllers;
 
-import de.htwg.battleship.Battleship;
-import de.htwg.battleship.aview.tui.TUI;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import de.htwg.battleship.Battleship;
+import de.htwg.battleship.aview.tui.TUI;
+import de.htwg.battleship.controller.IMasterController;
+
 public class MainController extends Controller {
 	
-	public Result battleship() {
-	    return ok(views.html.battleship.render());
-	}
+	static IMasterController controller = Battleship.getInstance().getController();
 	
-	public Result game() {
-	    return ok(views.html.main.render(views.html.index.render()));
+	public Result battleship() {
+	    return ok(views.html.battleship.render(controller));
 	}
 	
 	public Result rules() {
