@@ -1,15 +1,38 @@
 @(controller:de.htwg.battleship.controller.IMasterController)
 
 @main("Battleship") {
+
+    <script language="JavaScript"> 
+		function setCords(row, col) {
+			
+		}
+	</script>
     
     @for(rowCount <- 0 to 9) {
-        <div class="row">	
-            <div class="col-md-10 text-center">
-                <div class="btn-group btn-group-lg">
-                    @for(i <- 0 to 9) {
-                        <a href="/command/"><button type="button" class="btn btn-default">test</button></a>
+        <div class="row">
+            <div class="col-md-3 text-center"></div>
+            <div class="col-md-6 text-center">
+                <div class="btn-group">
+                    @for(colCount <- 0 to 9) {
+                            <button type="button" class="btn btn-default">
+                                    @rowCount @colCount
+                            </button>
                     }
                 </div>
+            </div>
+            <div class="col-md-3 text-center">
+                @if(rowCount == 0) {
+                    <a href="/battleship/ horizontal">
+                        <button type="button" class="btn btn-default">
+                            horizontal
+                        </button>
+                    </a>
+                    <a href="/battleship/ vertical">
+                        <button type="button" class="btn btn-default">
+                            vertical
+                        </button>
+                    </a>
+                }
             </div>
         </div>
     }
