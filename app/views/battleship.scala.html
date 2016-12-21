@@ -3,18 +3,29 @@
 @main("Battleship") {
 
     <script language="JavaScript"> 
-		function setCords(row, col) {
-			
-		}
-	</script>
-    
-    @for(rowCount <- 0 to 9) {
+        function setCords(row, col) {
+            
+            var startCharacter = "a";
+            
+            row = String.fromCharCode(startCharacter.charCodeAt(0) + row);
+            
+    	    document.getElementById("horizontal").onclick = function() {
+    	        location.href = "/battleship/" + row + " " + col + " horizontal";
+    	    }
+    	    
+    	    document.getElementById("vertical").onclick = function() {
+    	        location.href = "/battleship/" + row + " " + col + " vertical";
+    	    }
+       	}
+    </script>
+        
+    @for(rowCount <- 0 until 9) {
         <div class="row">
             <div class="col-md-3 text-center"></div>
             <div class="col-md-6 text-center">
                 <div class="btn-group">
-                    @for(colCount <- 0 to 9) {
-                            <button type="button" class="btn btn-default">
+                    @for(colCount <- 0 until 9) {
+                            <button type="button" class="btn btn-default" onClick="setCords(@rowCount, @colCount)">
                                     @rowCount @colCount
                             </button>
                     }
@@ -22,16 +33,13 @@
             </div>
             <div class="col-md-3 text-center">
                 @if(rowCount == 0) {
-                    <a href="/battleship/ horizontal">
-                        <button type="button" class="btn btn-default">
-                            horizontal
-                        </button>
-                    </a>
-                    <a href="/battleship/ vertical">
-                        <button type="button" class="btn btn-default">
-                            vertical
-                        </button>
-                    </a>
+                    <button type="button" class="btn btn-default" id="horizontal">
+                        horizontal
+                    </button>
+
+                    <button type="button" class="btn btn-default" id="vertical">
+                        vertical
+                    </button>
                 }
             </div>
         </div>
