@@ -3,7 +3,8 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.MainController.battleship()
+GET     /                           controllers.MainController.login()
+GET     /battleship                 controllers.MainController.battleship()
 GET     /rules                      controllers.MainController.rules()
 GET     /battleship/:command        controllers.MainController.wuiTuiInterface(command:String)
 

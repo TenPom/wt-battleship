@@ -11,6 +11,10 @@ public class MainController extends Controller {
 	
 	static IMasterController controller = Battleship.getInstance().getController();
 	
+	public Result login() {
+	    return ok(views.html.login.render(""));
+	}
+	
 	public Result battleship() {
 	    return ok(views.html.battleship.render(controller));
 	}
