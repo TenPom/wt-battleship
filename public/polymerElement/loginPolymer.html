@@ -1,0 +1,25 @@
+﻿<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../polymer/google-signin.html" />
+
+<dom-module id="loginPolymer">
+
+  <template>
+      <google-signin client-id="663005661536-vf0ojvbck4o4hfo8uo4tkt670bum8fai.apps.googleusercontent.com" scopes="https://www.googleapis.com/auth/plus.me"></google-signin>
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'loginPolymer',
+
+      ready: function() {
+        this.$.name.textContent = this.tagName;
+      }
+
+    });
+
+  </script>
+  
+
+</dom-module>
