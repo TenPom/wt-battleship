@@ -4,21 +4,18 @@
 <dom-module id="login-polymer">
 
   <template>
-      hello
+      <h2>hello</h2>
       <google-signin client-id="663005661536-vf0ojvbck4o4hfo8uo4tkt670bum8fai.apps.googleusercontent.com" scopes="https://www.googleapis.com/auth/plus.me"></google-signin>
   </template>
 
   <script>
+      Polymer({
+          is: "login-polymer",
 
-    Polymer({
-
-        is: 'login-polymer',
-
-      ready: function() {
-          alert('hello');
-      }
-
-    });
+          ready: function () {
+              alert('hello');
+          }
+      });
 
   </script>
   
