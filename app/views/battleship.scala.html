@@ -1,4 +1,4 @@
-@(controller:de.htwg.battleship.controller.IMasterController)
+@(controller: de.htwg.battleship.controller.IMasterController, tuiOutput: String)
 
 @main("Battleship") {
 
@@ -44,4 +44,11 @@
             </div>
         </div>
     }
+    
+    <div class="row">
+        <div class="form-group">
+            <label for="tuiOutput">TUI Output:</label>
+              <textarea class="form-control" rows="10" id="tuiOutput">@tuiOutput</textarea>
+        </div>
+    </div>
 }
