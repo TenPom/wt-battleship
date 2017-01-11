@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Battleship</title>
+    <link rel="shortcut icon" href="icon.jpg" type="image/x-icon" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div>
+        <img id="backgroundPicIndex" src="battleship.png" alt="eine grafik"/> 
+    </div>
+
+    <div>
+        <nav id="navBar"class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand">Battleship</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li><a id="menuBar" href="index.html">Home</a></li>
+              <li><a id="menuBar" href="#">Start new Game</a></li>
+              <li><a id="menuBar" href="#">Restore last Game</a></li>
+              <li><a id="menuBar" href="rulePage.html">Rules</a></li>
+            </ul>
+          </div>
+        </nav>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-4"><h1>Welcome to</h1></div>
+    </div>
+
+    <div class="row">
+        <button type="button" id="indexButtonStartNewGame" class="btn btn-lg col-md-2 col-md-offset-5" onClick="location.href='rulePage.html'"> Start new Game</button>
+    </div>
+    
+</body>
+</html>

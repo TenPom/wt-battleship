@@ -10,8 +10,11 @@
     <link rel="stylesheet" href="../assets/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="import" href="assets/polymerElement/login-polymer.html" />
-    <script src="assets/webcomponentsjs/webcomponents-lite.js"></script>
+
+    
+    <script src="@routes.Assets.versioned("polymer/bower_components/webcomponentsjs/webcomponents-lite.js")"></script>
+   	<link rel="import" href="@routes.Assets.versioned("polymer/bower_components/polymer/polymer.html")">
+   	<link rel="import" href="@routes.Assets.versioned("polymer/src/battleship-app/battleship-app.html")">
 </head>
 <body>
     <div>

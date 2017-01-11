@@ -1,0 +1,6 @@
+{
+  "name": "battleship",
+  "short_name": "battleship",
+  "start_url": "/",
+  "display": "standalone"
+}
