@@ -16,7 +16,7 @@ public class MainController extends Controller {
 	}
 	
 	public Result battleship() {
-	    return ok(views.html.battleship.render(controller));
+	    return ok(views.html.battleship.render(controller, ""));
 	}
 	
 	public Result rules() {
@@ -26,7 +26,7 @@ public class MainController extends Controller {
 	public Result wuiTuiInterface(String command) {
 		TUI tui = Battleship.getInstance().getTui();
 		tui.processInputLine(command);
-		return ok("" + tui.getTuiOutput());
-//		return ok(tui.toHTML());
+//		return ok("" + tui.getTuiOutput());
+		return ok(views.html.battleship.render(controller, tui.getTuiOutput()));
 	}
 }
