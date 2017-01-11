@@ -21,6 +21,10 @@ img {
 	cursor: crosshair;
 }
 
+.content {
+    z-index:1;
+}
+
 #backgroundPicRulePage {
 	filter: brightness(30%);
 	background: url(/assets/battleship.png);
@@ -55,3 +59,15 @@ img {
 	top: 140px;
 
 }
+
+#tuiOutput {
+    z-index:5;
+}
+
+#commandLine {
+    z-index:5;
+    color:#ffffff;
+    font-size:1.4em;
+    border: 3px solid white;
+}
+

@@ -1,9 +1,11 @@
 @(controller: de.htwg.battleship.controller.IMasterController, tuiOutput: String)
 
+@import _root_.de.htwg.battleship.util.State;
+
 @main("Battleship") {
 
     <script language="JavaScript"> 
-        function setCords(row, col) {
+        function setCords(col, row) {
             
             var startCharacter = "a";
             
@@ -17,22 +19,61 @@
     	        location.href = "/battleship/" + row + " " + col + " vertical";
     	    }
        	}
+       	
+       	function shoot(col, row) {
+       	    var startCharacter = "a";
+            
+            row = String.fromCharCode(startCharacter.charCodeAt(0) + row);
+            
+            location.href = "/battleship/" + row + " " + col;
+       	}
+
+        function getPlayerName() {
+       	    var playername = prompt("Please enter your name", "");
+       	    
+       	    if (null != playername) {
+       	        location.href = "/battleship/" + playername;
+       	    }
+       	}
     </script>
-        
-    @for(rowCount <- 0 until 9) {
+   
+   <div class="row" border="1">
+       <p id="commandLine" align="center"> 
+            @{controller.getCurrentState() match {
+                case State.PLACE1 =>
+                    controller.getPlayer1().getName() + " now place the ship with the length of " + (controller.getPlayer1().getOwnBoard().getShips() + 2);
+                    
+                case State.PLACE2 =>
+                    controller.getPlayer2().getName() + " now place the ship with the length of " + (controller.getPlayer2().getOwnBoard().getShips() + 2);
+                
+                case State.SHOOT1 =>
+                    controller.getPlayer1().getName() + " is now at the turn to shoot";
+                    
+                case State.SHOOT2 =>
+                    controller.getPlayer2().getName() + " is now at the turn to shoot";
+                    
+                case _ =>
+                    "Spielstatus konnte nicht abgerufen werden";
+            }
+            }
+        </p>
+    </div>
+       
+   
+    @for(rowCount <- 0 until 10) {
         <div class="row">
             <div class="col-md-3 text-center"></div>
             <div class="col-md-6 text-center">
                 <div class="btn-group">
-                    @for(colCount <- 0 until 9) {
-                            <button type="button" class="btn btn-default" onClick="setCords(@rowCount, @colCount)">
+                    @for(colCount <- 0 until 10) {
+                            <button type="button" class="btn btn-default" onClick="@if(controller.getCurrentState() == State.SHOOT1 || controller.getCurrentState() == State.SHOOT2) {shoot(@rowCount, @colCount)} else {setCords(@rowCount, @colCount)}">
                                     @rowCount @colCount
                             </button>
                     }
                 </div>
             </div>
             <div class="col-md-3 text-center">
-                @if(rowCount == 0) {
+                @if(rowCount == 0 && (controller.getCurrentState == State.PLACE1 || controller.getCurrentState == State.PLACE2)) {
                     <button type="button" class="btn btn-default" id="horizontal">
                         horizontal
                     </button>
@@ -45,10 +86,19 @@
         </div>
     }
     
-    <div class="row">
-        <div class="form-group">
-            <label for="tuiOutput">TUI Output:</label>
-              <textarea class="form-control" rows="10" id="tuiOutput">@tuiOutput</textarea>
-        </div>
-    </div>
+    @if(controller.getCurrentState() == State.START) {
+        @controller.setCurrentState(State.GETNAME1)
+        <script> 
+            while (!document.readyState === "complete");
+            getPlayerName();
+        </script> 
+    }
+    
+    @if(controller.getCurrentState() == State.GETNAME2) {
+         <script> 
+            while (!document.readyState === "complete");
+            getPlayerName();
+        </script> 
+    }
+    
 }
