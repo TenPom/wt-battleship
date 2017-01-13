@@ -4,12 +4,14 @@
 
 @main("Battleship") {
 
+@****************************************** SCRIPTS ***********************************************@
+
     <script language="JavaScript"> 
+    
         function setCords(col, row) {
             
-            var startCharacter = "a";
-            
-            row = String.fromCharCode(startCharacter.charCodeAt(0) + row);
+            row = String.fromCharCode("a".charCodeAt(0) + row);
+
             
     	    document.getElementById("horizontal").onclick = function() {
     	        location.href = "/battleship/" + row + " " + col + " horizontal";
@@ -21,10 +23,8 @@
        	}
        	
        	function shoot(col, row) {
-       	    var startCharacter = "a";
-            
-            row = String.fromCharCode(startCharacter.charCodeAt(0) + row);
-            
+       	    row = String.fromCharCode("a".charCodeAt(0) + row);
+       	    
             location.href = "/battleship/" + row + " " + col;
        	}
 
@@ -35,57 +35,88 @@
        	        location.href = "/battleship/" + playername;
        	    }
        	}
+      
     </script>
    
-   <div class="row" border="1">
-       <p id="commandLine" align="center"> 
-            @{controller.getCurrentState() match {
-                case State.PLACE1 =>
-                    controller.getPlayer1().getName() + " now place the ship with the length of " + (controller.getPlayer1().getOwnBoard().getShips() + 2);
-                    
-                case State.PLACE2 =>
-                    controller.getPlayer2().getName() + " now place the ship with the length of " + (controller.getPlayer2().getOwnBoard().getShips() + 2);
-                
-                case State.SHOOT1 =>
-                    controller.getPlayer1().getName() + " is now at the turn to shoot";
-                    
-                case State.SHOOT2 =>
-                    controller.getPlayer2().getName() + " is now at the turn to shoot";
-                    
-                case _ =>
-                    "Spielstatus konnte nicht abgerufen werden";
-            }
-            }
-        </p>
-    </div>
-       
+@********************************************* INFO ****************************************************@
    
-    @for(rowCount <- 0 until 10) {
-        <div class="row">
-            <div class="col-md-3 text-center"></div>
-            <div class="col-md-6 text-center">
-                <div class="btn-group">
-                    @for(colCount <- 0 until 10) {
-                            <button type="button" class="btn btn-default" onClick="@if(controller.getCurrentState() == State.SHOOT1 || controller.getCurrentState() == State.SHOOT2) {shoot(@rowCount, @colCount)} else {setCords(@rowCount, @colCount)}">
-                                    @rowCount @colCount
-                            </button>
-                    }
-                </div>
-            </div>
-            <div class="col-md-3 text-center">
-                @if(rowCount == 0 && (controller.getCurrentState == State.PLACE1 || controller.getCurrentState == State.PLACE2)) {
-                    <button type="button" class="btn btn-default" id="horizontal">
-                        horizontal
-                    </button>
-
-                    <button type="button" class="btn btn-default" id="vertical">
-                        vertical
-                    </button>
+    <div class="row">
+        <div class="col-md-4 text-center"></div>
+        <div class="col-md-4">
+            <div class="alert alert-info alert-dismissable text-center">
+                @{controller.getCurrentState() match {
+                    case State.PLACE1 =>
+                        controller.getPlayer1().getName() + " now place the ship with the length of " + (controller.getPlayer1().getOwnBoard().getShips() + 2);
+                        
+                    case State.PLACE2 =>
+                        controller.getPlayer2().getName() + " now place the ship with the length of " + (controller.getPlayer2().getOwnBoard().getShips() + 2);
+                    
+                    case State.SHOOT1 =>
+                        controller.getPlayer1().getName() + " is now at the turn to shoot";
+                        
+                    case State.SHOOT2 =>
+                        controller.getPlayer2().getName() + " is now at the turn to shoot";
+                        
+                    case _ =>
+                        "Spielstatus konnte nicht abgerufen werden";
+                }
                 }
             </div>
         </div>
-    }
+        <div class="col-md-4 text-center"></div>
+    </div>
+      
+@******************************************** GAMEFIELD ************************************************@
+
+    <div class="gamefield">
     
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" text-center>
+                <div class="fieldLabel">
+                    @for(colCount <- 1 until 11) {
+                        <div id="topLabel">@colCount</div>       
+                    }
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        
+        @for(rowCount <- 0 until 10) {
+            <div class="row">
+                <div class="col-md-3 text-right">
+                    <p class="fieldLabel">
+                        @{((65 + rowCount).toChar).toString()}
+                    </p>
+                </div>
+                
+                <div class="col-md-6 text-center">
+                    <div class="btn-group">
+                        @for(colCount <- 0 until 10) {
+                                <button type="button" class="btn btn-default btn-md" onClick="@if(controller.getCurrentState() == State.SHOOT1 || controller.getCurrentState() == State.SHOOT2) {shoot(@rowCount, @colCount)} else {setCords(@rowCount, @colCount)}">
+                                        @rowCount.toString().toUpperCase() @colCount
+                                </button>
+                        }
+                    </div>
+                </div>
+                
+                <div class="col-md-3 text-center">
+                    @if(rowCount == 0 && (controller.getCurrentState == State.PLACE1 || controller.getCurrentState == State.PLACE2)) {
+                        <button type="button" class="btn btn-default" id="horizontal">
+                            horizontal
+                        </button>
+    
+                        <button type="button" class="btn btn-default" id="vertical">
+                            vertical
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    
+@*************************************** ALERTS *********************************************@
+
     @if(controller.getCurrentState() == State.START) {
         @controller.setCurrentState(State.GETNAME1)
         <script> 
