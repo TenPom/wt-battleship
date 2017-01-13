@@ -1,0 +1,12 @@
+logs
+target
+project/.sbtserver
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+/.sbtserver
+/battleship.log
+/.metadata
