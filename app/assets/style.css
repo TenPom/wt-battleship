@@ -21,8 +21,18 @@ img {
 	cursor: crosshair;
 }
 
+div {
+    cursor: crosshair;
+}
+
 .content {
     z-index:1;
+}
+
+.fieldLabel{
+    color: #ffffff;
+    font-size: 1.2em;
+    height: 100%;
 }
 
 #backgroundPicRulePage {
@@ -32,6 +42,7 @@ img {
 
 #backgroundPicIndex {
 	background: url(/assets/battleship.png);
+	overflow: hidden;
 }
 
 #menuRightGlyph {
@@ -71,3 +82,6 @@ img {
     border: 3px solid white;
 }
 
+#topLabel {
+    display: inline;
+}

@@ -16,7 +16,7 @@
    	<link rel="import" href="@routes.Assets.versioned("polymer/bower_components/polymer/polymer.html")">
    	<link rel="import" href="@routes.Assets.versioned("polymer/src/battleship-app/battleship-app.html")">
 </head>
-<body>
+<body id="backgroundPicIndex">
     <div>
         <nav id="navBar" class="navbar navbar-inverse">
           <div class="container-fluid">
@@ -32,7 +32,6 @@
           </div>
         </nav>
     </div>
-    <div><img id = "backgroundPicIndex" src ="../assets/battleship.png" alt="battleship_background"></div>
     <div class="content">
         @content
     </div>
