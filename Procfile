@@ -1,2 +1,2 @@
-web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS}
+web: target/universal/stage/bin/wtbattleship -Dhttp.port=${PORT}
 
