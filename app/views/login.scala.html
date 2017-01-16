@@ -1,11 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Battleship</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href='../assets/icon.jpg' type="image/x-icon" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="663005661536-pp51ti02kemqet83v8imdjobnl9qddfs.apps.googleusercontent.com">
+    
+    <script src="@routes.Assets.versioned("polymer/bower_components/webcomponentsjs/webcomponents-lite.js")"></script>
+   	<link rel="import" href="@routes.Assets.versioned("polymer/bower_components/polymer/polymer.html")">
+   	<link rel="import" href="@routes.Assets.versioned("polymer/src/battleship-app/battleship-app.html")">
+</head>
 
+<body id="backgroundPicIndex">
 
-@main("Battleship") {
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div id="loginHeader" class="col-md-9 col-md-offset-3">
             <h1>Login to Battleship</h1>
-             <battleship-app></battleship-app>
         </div>
     </div>
+    <div class="g-signin2 col-md-2 col-md-offset-5" id="signInButton" data-onsuccess="onSignIn"></div>
+   
+    <script>
+        function onSignIn(googleUser) {
+            window.location = "/battleship"
+        };
+    </script>
 
-}
+</body>

@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../bower_components/google-signin/google-signin.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 
 <dom-module id="battleship-app">
   <template>
@@ -21,6 +22,32 @@
         prop1: {
           type: String,
           value: 'battleship-app',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
+
+<dom-module id="picture-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+     <div><body id="backgroundPicIndex"></body></div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'picture-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'picture-app',
         },
       },
 
