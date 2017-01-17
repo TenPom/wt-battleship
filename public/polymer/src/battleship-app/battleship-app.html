@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../bower_components/google-signin/google-signin.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
 <dom-module id="battleship-app">
   <template>
@@ -21,6 +22,70 @@
         prop1: {
           type: String,
           value: 'battleship-app',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
+
+<dom-module id="rules-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    
+    
+        <paper-material>
+            <div class="row">
+                <div class="col-md-12 col-md-offset-1"><h2>The basic rules of Battleship</h2></div>
+            </div>
+        
+        
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1"><h3>Objective</h3></div>
+                <div class="col-md-5 col-md-offset-1"><h3>Starting a new Game</h3></div>
+            </div>
+            
+            <div class="row" id="rulePageText">
+                <div class="col-md-4 col-md-offset-1">The object of Battleship is to try and sink all of the other player's before they
+                    sink all of your ships. All of the other player's ships are somewhere on his/her board.
+                    You try and hit them by calling out the coordinates of one of the squares on the board.
+                    The other player also tries to hit your ships by calling out coordinates.  Neither you 
+                    nor the other player can see the other's board so you must try to guess where they are.  
+                    Each board in the physical game has two grids:  the lower (horizontal) section for the player's 
+                    ships and the upper part (vertical during play) for recording the player's guesses.
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    Each player places the 5 ships somewhere on their board. 
+                    The 5 ships have the size of 2-6 fields. 
+                    The ships can only be placed vertically or horizontally. 
+                    Diagonal placement is not allowed. No part of a ship may hang off the edge of the board.  
+                    Ships may not overlap each other.  No ships may be placed on another ship. 
+                    Once the guessing begins, the players may not move the ships.
+                </div> 
+    
+            </div>
+        </paper-material>
+         
+         
+         
+     
+     
+     
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'rules-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'rules-app',
         },
       },
 

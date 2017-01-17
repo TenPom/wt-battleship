@@ -85,3 +85,11 @@ div {
 #topLabel {
     display: inline;
 }
+
+#signInButton {
+    top: 100px;
+}
+
+#loginHeader {
+    top: 50px;
+}
