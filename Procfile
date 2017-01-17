@@ -1,2 +1,2 @@
-web: target/universal/stage/bin/wtbattleship -Dhttp.port=${PORT}
+web: target/universal/stage/bin/wt-battleship -Dhttp.port=${PORT}
 
