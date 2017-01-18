@@ -14,29 +14,29 @@
 
             
     	    document.getElementById("horizontal").onclick = function() {
-    	        $.post("/json/" + row + " " + col + "horizontal", function (data) {
-                    var msg = JSON.parse(data);
-    	        }
+    	        $.post("/json/" + row + " " + col + " horizontal");
     	    }
     	    
     	    document.getElementById("vertical").onclick = function() {
-    	        $.post("/json/" + row + " " + col + "vertical", function (data) {
-                    var msg = JSON.parse(data);
-    	        }
+    	        $.post("/json/" + row + " " + col + " vertical");
+                 
     	    }
        	}
        	
        	function shoot(col, row) {
        	    row = String.fromCharCode("a".charCodeAt(0) + row);
        	    
-            location.href = "/battleship/" + row + " " + col;
+            $.post("/json/" + row + " " + col, function (data) {
+                    var msg = JSON.parse(data);
+    	    });
        	}
 
         function getPlayerName() {
+            console.log("popup player");
        	    var playername = prompt("Please enter your name", "");
        	    
        	    if (null != playername) {
-       	        location.href = "/battleship/" + playername;
+       	        $.post("/json/" + playername);
        	    }
        	}
       
@@ -62,7 +62,7 @@
                         controller.getPlayer2().getName() + " is now at the turn to shoot";
                         
                     case _ =>
-                        "Spielstatus konnte nicht abgerufen werden";
+                        "status: " + controller.getCurrentState();
                 }
                 }
             </div>
@@ -124,14 +124,12 @@
     @if(controller.getCurrentState() == State.START) {
         @controller.setCurrentState(State.GETNAME1)
         <script> 
-            while (!document.readyState === "complete");
             getPlayerName();
         </script> 
     }
     
     @if(controller.getCurrentState() == State.GETNAME2) {
          <script> 
-            while (!document.readyState === "complete");
             getPlayerName();
         </script> 
     }

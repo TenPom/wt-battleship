@@ -25,6 +25,7 @@ import play.routing.JavaScriptReverseRouter;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import de.htwg.battleship.Battleship;
 import de.htwg.battleship.aview.tui.TUI;
@@ -81,7 +82,11 @@ public class MainController extends Controller {
 	}
 	
 	public Result jsonCommand(String command) {
-	    
+	    String email = session("email");
+        IMasterController controller = controllers.get(email);
+        System.out.println("jsonCommand: " + command);
+        controller.processInputLine(command);
+        return ok(views.html.battleship.render(controller, email));
 	}
 	
 	public Result authenticate() {
@@ -140,8 +145,8 @@ public class MainController extends Controller {
             ).as("text/javascript");
     }
 	
-    public static LegacyWebSocket<String> connectWebSocket() {
-        return WebSocket.whenReady((in, out) -> WebSocketUtils.start(in, out));
+    public static LegacyWebSocket<JsonNode> connectWebSocket() {
+        return WebSocket.whenReady((in, out) -> WebsocketUtils.start(in, out));
 	}
 	//---------------------- Hilfsklassen -----------------------------
 	
