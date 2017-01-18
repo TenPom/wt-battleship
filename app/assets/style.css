@@ -91,5 +91,7 @@ div {
 }
 
 #loginHeader {
-    top: 50px;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
 }
