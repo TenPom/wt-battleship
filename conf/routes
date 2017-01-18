@@ -13,9 +13,6 @@ GET 	/logout						controllers.MainController.logout()
 GET     /signup                     controllers.MainController.signupForm()
 POST    /signup                     controllers.MainController.signup()
 
-POST     /openID/login               controllers.OpenIDController.loginPost()
-GET     /openID/callback            controllers.OpenIDController.openIDCallback()
-
 GET     /battleship                 controllers.MainController.battleship()
 
 GET     /rules                      controllers.MainController.rules()
