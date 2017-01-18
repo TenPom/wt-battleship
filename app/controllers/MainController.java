@@ -1,5 +1,7 @@
 package controllers;
 
+import utils.WebsocketUtils;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.concurrent.CompletionStage;
@@ -78,18 +80,9 @@ public class MainController extends Controller {
 		return ok(views.html.battleship.render(controller, email));
 	}
 	
-    /*	public static LegacyWebSocket<String> connectWebSocket() {
-       
-        return WebSocket.whenReady((in, out) -> {
-                String email = session("email");
-                ISudokuController controller = controllers.get(email);
-            	new WebObserver(controller,out);
-            }
-
-        };
+	public Result jsonCommand(String command) {
+	    
 	}
-	*/
-	
 	
 	public Result authenticate() {
         Form<User> loginform = DynamicForm.form(User.class).bindFromRequest();
@@ -139,14 +132,17 @@ public class MainController extends Controller {
         }
     }
    
-   public Result javascriptRoutes() {
-       return ok(
-                JavaScriptReverseRouter.create("jsRoutes", 
-                    routes.javascript.MainController.authenticate(),
-                    routes.javascript.MainController.logout())
-                ).as("text/javascript");
-   }
+    public Result javascriptRoutes() {
+        return ok(
+            JavaScriptReverseRouter.create("jsRoutes", 
+                routes.javascript.MainController.authenticate(),
+                routes.javascript.MainController.logout())
+            ).as("text/javascript");
+    }
 	
+    public static LegacyWebSocket<String> connectWebSocket() {
+        return WebSocket.whenReady((in, out) -> WebSocketUtils.start(in, out));
+	}
 	//---------------------- Hilfsklassen -----------------------------
 	
 	public static class User {
