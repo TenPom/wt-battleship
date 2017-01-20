@@ -48,12 +48,6 @@ div {
     height: 100%;
 }
 
-#backgroundPicRulePage {
-	filter: brightness(30%);
-	background: src="@routes.Assets.versioned("/images/battleship.png")";
-	background-size: cover;
-}
-
 #schrift {
     font-family: courier;
     cursor: crosshair;
