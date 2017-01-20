@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="battleship-gamefield">
+
+    <template>
+        <style include="app-grid-style">
+    
+            :host {
+                --app-grid-columns: 10;
+                --app-grid-item-height: 100px;
+            }
+            
+            div {
+                padding: 0;
+                list-style: none;
+            }
+        
+            .item {
+                background-color: white;
+                border: 1px solid black;
+            }
+            
+        </style>
+    
+        <div class="app-grid">
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+            </ul>
+        </div>
+    </template>
+    
+    <script>
+    Polymer({
+
+      is: 'battlefield-gamefield',
+
+    });
+  </script>
+</dom-module>
