@@ -36,7 +36,7 @@ import de.htwg.battleship.controller.IMasterController;
 
 public class MainController extends Controller {
 	
-	private static final List<GameInstance> soloGame = new LinkedList<>();
+	
 	
 	private static Map<String, IMasterController> controllers = new HashMap<>();
 	
@@ -154,54 +154,9 @@ public class MainController extends Controller {
 	    return ok(views.js.webSocket.render());
 	}
 	
-    public LegacyWebSocket<JsonNode> webSocket() {
-        return WebSocket.whenReady((in, out) -> WebsocketUtils.start(in, out));
-	}
-	
-	
-	 public LegacyWebSocket<String> socket(final String login, final String id) {
-	     
-        return new WebSocket() {
-            
-            private boolean isPlayerOne;
-            private GameInstance instance;
-            private WuiController wuiController;
-            
-        	public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {
-                if (soloGame.isEmpty()) {
-                    // first player
-                    Battleship battleship = Battleship.getInstance(true);
-                    this.wuiController = new WuiController(battleship.getController(), out, true);
-                    this.instance = new GameInstance(battleship, out, this.wuiController);
-                    soloGame.add(this.instance);
-                    this.wuiController.startGame();
-                    isPlayerOne = true;
-                } else {
-                    // second player
-                    this.instance = soloGame.get(0);
-                    soloGame.remove(0);
-                    this.instance.setSocketTwo(out);
-                    this.wuiController =
-                        new WuiController(this.instance.getInstance().getController(), out, false);
-                    this.instance.setWuiControllerTwo(this.wuiController);
-                    isPlayerOne = false;
-                }
-                this.wuiController.setProfile(login, id);
-
-                in.onMessage((String message) -> this.wuiController.analyzeMessage(message));
-
-                in.onClose(() -> {
-                    try {
-                        this.instance.closedSocket(firstPlayer);
-                        // removing from list if there was only one instance in the list
-                        onePlayer.remove(this.instance);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        };
-    }
+	 public LegacyWebSocket<String> webSocket(final String login, final String id) {
+	    return Websocket.whenReady((in,out, login, id) -> WebsocketService.startWebsocket(in, out, login, id));
+	 }
 	
 	//---------------------- Hilfsklassen -----------------------------
 	
