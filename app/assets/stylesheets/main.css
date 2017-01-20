@@ -1,15 +1,33 @@
+.hvr-grow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+}
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+    transform: scale(1.1);
+}
+
 h1, h2, h3, #rulePageText {
 	z-index: 1;
 	color: #ffffff;
-	font-family: airborne;
+	font-family: courier;
 	cursor: crosshair;
-	src: url('airborne.ttf') format('truetype');
+	/*src: url('airborne.ttf') format('truetype');*/
 	text-shadow: 8px 7px 8px black;
 }
 
 h1 {
 	font-size: 50pt;
 	cursor: crosshair;
+	font-family: courier;
 }
 
 img {
@@ -38,10 +56,23 @@ div {
 #backgroundPicRulePage {
 	filter: brightness(30%);
 	background: url(/assets/battleship.png);
+	background-size: cover;
+}
+
+#schrift {
+    font-family: courier;
+    cursor: crosshair;
+}
+
+#schriftRulePage {
+    font-family: courier;
+    color: #ffffff;
+    font-size: 110%;
 }
 
 #backgroundPicIndex {
 	overflow: hidden;
+	background-size: cover;
 }
 
 #menuRightGlyph {
@@ -52,9 +83,9 @@ div {
 #navBar {
 	z-index: 1;
 	color: #ffffff;
-	font-family: airborne;
+	font-family: courier;
 	cursor: crosshair;
-	src: url('airborne.ttf') format('truetype');
+	/*src: url('airborne.ttf') format('truetype');*/
 	text-shadow: 8px 7px 8px black;
 }
 
@@ -63,9 +94,9 @@ div {
 }
 
 #indexButtonStartNewGame {
-	font-family: airborne;
+	font-family: courier;
 	cursor: crosshair;
-	src: url('airborne.ttf') format('truetype');
+	/*src: url('airborne.ttf') format('truetype');*/
 	top: 140px;
 
 }
