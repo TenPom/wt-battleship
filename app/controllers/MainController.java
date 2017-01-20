@@ -90,7 +90,7 @@ public class MainController extends Controller {
 	    String email = session("email");
         IMasterController controller = controllers.get(email);
         System.out.println("jsonCommand: " + command);
-        controller.processInputLine(command);
+        //controller.processInputLine(command);
         return ok(views.html.battleship.render(controller, email));
 	}
 	
@@ -112,7 +112,7 @@ public class MainController extends Controller {
             session().clear();
             session("email", user.email);
             String email = session("email");
-            IMasterController controller = Battleship.getInstance().createController();
+            IMasterController controller = Battleship.getInstance().getController();
             System.out.println("Init controller: " + controller);
             controllers.put(email,controller);
             return redirect(routes.MainController.battleship());
