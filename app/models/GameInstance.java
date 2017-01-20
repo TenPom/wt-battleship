@@ -56,10 +56,10 @@ public class GameInstance {
         this.wc_Two.setGameInstance(this);
     }
     
-    public void chat(String message, boolean firstPlayer) {
+    public void chat(String message, boolean isPlayerOne) {
         String msg = message.replace(GameInstance.CHAT_PREFIX, "");
         ChatMessage msgObject;
-        if (firstPlayer) {
+        if (isPlayerOne) {
             // send by Player one -> name of IPlayer1
             msgObject = new ChatMessage(msg, this.instance.getController().getPlayer1().getName());
         } else {
