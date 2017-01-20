@@ -18,15 +18,16 @@
 h1, h2, h3, #rulePageText {
 	z-index: 1;
 	color: #ffffff;
-	font-family: airborne;
+	font-family: courier;
 	cursor: crosshair;
-	src: url('airborne.ttf') format('truetype');
+	/*src: url('airborne.ttf') format('truetype');*/
 	text-shadow: 8px 7px 8px black;
 }
 
 h1 {
 	font-size: 50pt;
 	cursor: crosshair;
+	font-family: courier;
 }
 
 img {
@@ -57,6 +58,16 @@ div {
 	background: url(/assets/battleship.png);
 }
 
+#schrift {
+    font-family: courier;
+}
+
+#schriftRulePage {
+    font-family: courier;
+    color: #ffffff;
+    font-size: 110%;
+}
+
 #backgroundPicIndex {
 	background: url(/assets/battleship.png);
 	overflow: hidden;
@@ -70,9 +81,9 @@ div {
 #navBar {
 	z-index: 1;
 	color: #ffffff;
-	font-family: airborne;
+	font-family: courier;
 	cursor: crosshair;
-	src: url('airborne.ttf') format('truetype');
+	/*src: url('airborne.ttf') format('truetype');*/
 	text-shadow: 8px 7px 8px black;
 }
 
@@ -81,9 +92,9 @@ div {
 }
 
 #indexButtonStartNewGame {
-	font-family: airborne;
+	font-family: courier;
 	cursor: crosshair;
-	src: url('airborne.ttf') format('truetype');
+	/*src: url('airborne.ttf') format('truetype');*/
 	top: 140px;
 
 }
