@@ -42,4 +42,28 @@ public class WuiController implements IObserver {
         }
     }
     
+    public void startGame() {
+        this.master.startGame();
+    }
+    
+    public void setProfile(String name, String id) {
+        this.master.setPlayerProfile(name, id);
+    }
+    
+     public void analyzeMessage(String message) {
+        if (message.startsWith(GameInstance.CHAT_PREFIX)) {
+            this.gameInstance.chat(message, isPlayerOne);
+            return;
+        }
+        String[] field = message.split(" ");
+        if (field.length == 3) {
+            // x y orientation -> which player
+            placeShip(field);
+        } else if (field.length == 2) {
+            // x y -> test which player
+            shoot(field);
+        } else {
+            send(new InvalidMessage());
+        }
+    }
 }
