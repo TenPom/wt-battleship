@@ -1,8 +1,11 @@
 package controllers;
 
 import utils.WebsocketUtils;
+import models.GameInstance;
 
 import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.concurrent.CompletionStage;
 
@@ -32,6 +35,8 @@ import de.htwg.battleship.aview.tui.TUI;
 import de.htwg.battleship.controller.IMasterController;
 
 public class MainController extends Controller {
+	
+	private static final List<GameInstance> soloGame = new LinkedList<>();
 	
 	private static Map<String, IMasterController> controllers = new HashMap<>();
 	
@@ -137,7 +142,7 @@ public class MainController extends Controller {
         }
     }
    
-    public Result javascriptRoutes() {
+    public Result jsRoutes() {
         return ok(
             JavaScriptReverseRouter.create("jsRoutes", 
                 routes.javascript.MainController.authenticate(),
@@ -145,9 +150,15 @@ public class MainController extends Controller {
             ).as("text/javascript");
     }
 	
-    public static LegacyWebSocket<JsonNode> connectWebSocket() {
+	public Result webSocketRender() {
+	    return ok(views.js.webSocket.render());
+	}
+	
+    public LegacyWebSocket<JsonNode> webSocket() {
         return WebSocket.whenReady((in, out) -> WebsocketUtils.start(in, out));
 	}
+	
+	
 	//---------------------- Hilfsklassen -----------------------------
 	
 	public static class User {
