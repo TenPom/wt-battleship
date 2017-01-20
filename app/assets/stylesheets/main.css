@@ -55,7 +55,7 @@ div {
 
 #backgroundPicRulePage {
 	filter: brightness(30%);
-	background: url(/assets/battleship.png);
+	background: src="@routes.Assets.versioned("/images/battleship.png")";
 	background-size: cover;
 }
 
@@ -73,6 +73,7 @@ div {
 #backgroundPicIndex {
 	overflow: hidden;
 	background-size: cover;
+	background: src="@routes.Assets.versioned("/images/battleship.png")";
 }
 
 #menuRightGlyph {
