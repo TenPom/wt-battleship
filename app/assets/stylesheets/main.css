@@ -42,11 +42,6 @@ img {
 div {
     cursor: crosshair;
 }
-
-.content {
-    z-index:1;
-}
-
 .fieldLabel{
     color: #ffffff;
     font-size: 1.2em;
@@ -69,11 +64,12 @@ div {
     color: #ffffff;
     font-size: 110%;
 }
-
-#backgroundPicIndex {
-	overflow: hidden;
-	background-size: cover;
-	background: src="@routes.Assets.versioned("/images/battleship.png")";
+.content {
+    position: absolute;
+    top: 0%;
+}
+#backgroundImage {
+	position: relative;
 }
 
 #menuRightGlyph {
