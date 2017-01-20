@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Lars on 15.01.2017.
- */
 public class WebsocketUtils {
 
     private static List<WebSocket.Out<JsonNode>> connections = new ArrayList<>();
@@ -28,6 +25,7 @@ public class WebsocketUtils {
     }
 
     public static void handleMessage(JsonNode jsonNode) {
+       /*
         Map response = new HashMap<>();
         String type = jsonNode.get("type").asText();
         JsonNode data = jsonNode.get("data");
@@ -40,6 +38,7 @@ public class WebsocketUtils {
         }
         JsonNode output = mapper.convertValue(response, JsonNode.class);
         broadcastMessage(output);
+        */
     }
 
 
