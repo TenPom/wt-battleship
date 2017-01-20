@@ -2,14 +2,18 @@ package controllers;
 
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
+import de.htwg.battleship.util.State;
 import models.User;
 import models.GameInstance;
 import models.messages.Message;
 import models.messages.ChatMessage;
+import models.messages.InvalidMessage;
 import play.mvc.WebSocket;
 
 
 public class WuiController implements IObserver {
+    
+    private static final String HORIZONTAL_ORIENTATION = "true";
     
     private GameInstance gameInstance;
     private IMasterController master;
@@ -50,7 +54,7 @@ public class WuiController implements IObserver {
         this.master.setPlayerProfile(name, id);
     }
     
-     public void analyzeMessage(String message) {
+     public void handleMessage(String message) {
         if (message.startsWith(GameInstance.CHAT_PREFIX)) {
             this.gameInstance.chat(message, isPlayerOne);
             return;
@@ -65,5 +69,23 @@ public class WuiController implements IObserver {
         } else {
             send(new InvalidMessage());
         }
+    }
+    
+    private void placeShip(String[] field) {
+        if (isPlayerOne && master.getCurrentState() == State.PLACE1 ||
+            !isPlayerOne && master.getCurrentState() == State.PLACE2) {
+            
+            master.placeShip(Integer.parseInt(field[0]), Integer.parseInt(field[1]), field[2].equals(HORIZONTAL_ORIENTATION));
+
+        }
+    }
+    
+    private void shoot(String[] field) {
+        if (isPlayerOne && master.getCurrentState() == State.SHOOT1 ||
+            !isPlayerOne && master.getCurrentState() == State.SHOOT2) {
+            master.shoot(Integer.parseInt(field[0]), Integer.parseInt(field[1]));
+        }
+        // else -> the player isn't allowed to shoot in this state
+        // instruction is omitted
     }
 }
