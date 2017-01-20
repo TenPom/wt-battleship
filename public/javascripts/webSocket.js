@@ -4,11 +4,10 @@ var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 var socket = new WS('ws://localhost:9000/ws');
 
 $(document).ready(function () {
-
-    var gamefield = $("#gamefield");
+    socket.onmessage = function (message) {
     
-    var poly_gamefield = document.createElement('paper-button');
-    $(poly_gamefield).append(gamefield);
+        
+    });
 });
 
 

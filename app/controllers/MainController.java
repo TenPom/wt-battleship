@@ -25,6 +25,8 @@ import play.libs.openid.*;
 
 import play.routing.JavaScriptReverseRouter;
 
+import services.WebsocketService;
+
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -41,6 +43,8 @@ public class MainController extends Controller {
 	private static Map<String, IMasterController> controllers = new HashMap<>();
 	
 	private static Map<String, String> users = new HashMap<>();
+	
+	private final WebsocketService websocketService = new WebsocketService();
 	
 	@play.mvc.Security.Authenticated(Secured.class)
 	public Result battleship() {
@@ -151,11 +155,11 @@ public class MainController extends Controller {
     }
 	
 	public Result webSocketRender() {
-	    return ok(views.js.webSocket.render());
+	    return ok(views.js.websocket.render());
 	}
 	
 	 public LegacyWebSocket<String> webSocket(final String login, final String id) {
-	    return Websocket.whenReady((in,out, login, id) -> WebsocketService.startWebsocket(in, out, login, id));
+	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out, login, id));
 	 }
 	
 	//---------------------- Hilfsklassen -----------------------------

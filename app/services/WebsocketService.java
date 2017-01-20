@@ -1,5 +1,15 @@
 package services;
 
+import java.util.List;
+import java.util.LinkedList;
+
+import play.mvc.WebSocket;
+
+import models.GameInstance;
+import controllers.WuiController;
+
+import de.htwg.battleship.Battleship;
+
 public class WebsocketService {
     
     private static final List<GameInstance> soloGame = new LinkedList<>();
@@ -8,7 +18,7 @@ public class WebsocketService {
     private GameInstance instance;
     private WuiController wuiController;
     
-    public static void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out, final String login, final String id) {
+    public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out, final String login, final String id) {
         
         if (soloGame.isEmpty()) {
             // first player
