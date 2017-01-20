@@ -6,6 +6,8 @@
 
 @****************************************** SCRIPTS ***********************************************@
 
+    <script src="@routes.Assets.versioned("/javascripts/webSocket.js")"></script>
+
     <script language="JavaScript"> 
     
         function setCords(col, row) {
@@ -32,7 +34,6 @@
        	}
 
         function getPlayerName() {
-            console.log("popup player");
        	    var playername = prompt("Please enter your name", "");
        	    
        	    if (null != playername) {

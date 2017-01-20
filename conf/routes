@@ -21,7 +21,7 @@ GET     /battleship/:command        controllers.MainController.wuiTuiInterface(c
 
 POST     /json/:commandline         controllers.MainController.jsonCommand(commandline:String)
 
-GET     /websocket                  controllers.MainController.webSocket(login:String, id: String)
+GET     /websocket                  controllers.MainController.webSocket()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

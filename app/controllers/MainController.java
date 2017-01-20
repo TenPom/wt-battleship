@@ -158,8 +158,9 @@ public class MainController extends Controller {
 	    return ok(views.js.websocket.render());
 	}
 	
-	 public LegacyWebSocket<String> webSocket(final String login, final String id) {
-	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out, login, id));
+	 public LegacyWebSocket<String> webSocket() {
+	     System.out.println("websocketfunction called... !");
+	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out, "test", "42"));
 	 }
 	
 	//---------------------- Hilfsklassen -----------------------------

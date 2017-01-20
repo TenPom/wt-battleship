@@ -1,4 +1,14 @@
 var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
-var socket = new WS('@routes.MainController.webSocket("testname", "42").webSocketURL(request)');
+console.log('<%= Session["email"] %>');
+
+var email = '<%= Session["email"] %>';
+
+var socket = new WS('@routes.MainController.webSocket().webSocketURL(request)');
+
+if(null != socker) {
+	console.log("##### socket connected #####");
+}
+
+socket.send("test von der viewsocket");
 

@@ -30,6 +30,7 @@ public class WuiController implements IObserver {
         this.socket = socket;
         this.isPlayerOne = isPlayerOne;
         master.addObserver(this);
+        System.out.println("WuiController initialized!");
     }
     
     public void setGameInstance(GameInstance gameInstance) {
@@ -67,6 +68,7 @@ public class WuiController implements IObserver {
             // x y -> test which player
             shoot(field);
         } else {
+            System.out.println("Incoming message from Client: " + message);
             send(new InvalidMessage());
         }
     }

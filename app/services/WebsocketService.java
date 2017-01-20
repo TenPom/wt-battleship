@@ -19,7 +19,7 @@ public class WebsocketService {
     private WuiController wuiController;
     
     public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out, final String login, final String id) {
-        
+        System.out.println("start called .. login: " + login + " id: " + id);
         if (soloGame.isEmpty()) {
             // first player
             Battleship battleship = Battleship.getInstance(true);
