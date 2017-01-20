@@ -56,10 +56,12 @@ div {
 #backgroundPicRulePage {
 	filter: brightness(30%);
 	background: url(/assets/battleship.png);
+	background-size: cover;
 }
 
 #schrift {
     font-family: courier;
+    cursor: crosshair;
 }
 
 #schriftRulePage {
@@ -71,6 +73,7 @@ div {
 #backgroundPicIndex {
 	background: url(/assets/battleship.png);
 	overflow: hidden;
+	background-size: cover;
 }
 
 #menuRightGlyph {
