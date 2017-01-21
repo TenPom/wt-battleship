@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
 
 <dom-module id="battleship-gamefield">
 
@@ -11,34 +12,31 @@
                 --app-grid-item-height: 100px;
             }
             
-            div {
+            ul {
                 padding: 0;
                 list-style: none;
             }
         
             .item {
                 background-color: white;
-                border: 1px solid black;
             }
             
         </style>
     
-        <div class="app-grid">
-            <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
+            <ul class="app-grid">
+                <li class="item">1</li>
+                <li class="item">2</li>
+                <li class="item">3</li>
+                <li class="item">4</li>
+                <li class="item">5</li>
+                <li class="item">6</li>
             </ul>
-        </div>
     </template>
     
     <script>
     Polymer({
 
-      is: 'battlefield-gamefield',
+      is: 'battleship-gamefield',
 
     });
   </script>
