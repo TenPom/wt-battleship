@@ -40,17 +40,17 @@
                 <a id="schrift" type="button" class="btn btn-default hvr-grow" href="@routes.MainController.signup">Signup as new User</a>
                 <row>
                     <div class="col">
-                        <div class="g-signin2 hvr-grow" data-onsuccess="onSignIn" data-theme="dark" id="signInButton"></div>
+                        <div class="g-signin2 hvr-grow" data-onsuccess="onSingIn" data-theme="dark" id="signInButton"></div>
                         <script>
                             function onSignIn(googleUser) {
                                 console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-                                $.ajax(jsRoutes.controllers.MainController.authenticate());
+                                window.location = "/";
                             };
                             
                             function signOut(googleUser) {
                                 console.log('Log Out: ' + googleUser.getBasicProfile().getName());
                                 $.ajax(jsRoutes.controllers.MainController.logout());
-                            }
+                            };
                         </script>
                         </div>
                     </div>
