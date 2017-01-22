@@ -22,7 +22,13 @@ public class WuiController implements IObserver {
     
      @Override
     public void update() {
-       
+       if(isPlayerOne) {
+           System.out.println("[GameUpdate] -- Player: " + master.getPlayer1().getName());
+           System.out.println("[GameUpdate] -- State:  " + master.getCurrentState());
+       } else {
+           System.out.println("[GameUpdate] -- Player: " + master.getPlayer2().getName());
+           System.out.println("[GameUpdate] -- State:  " + master.getCurrentState());
+       }
     }
     
     public WuiController(IMasterController master, WebSocket.Out<String> socket, boolean isPlayerOne) {
@@ -31,6 +37,7 @@ public class WuiController implements IObserver {
         this.isPlayerOne = isPlayerOne;
         master.addObserver(this);
         System.out.println("WuiController initialized!");
+        send(new ChatMessage("ChatNachricht 1", "testSender"));
     }
     
     public void setGameInstance(GameInstance gameInstance) {
@@ -42,6 +49,7 @@ public class WuiController implements IObserver {
     }
     
      private void send(Message msg) {
+        System.out.println("[Send Message from: " + this + " to socket: " + socket + "]");
         if (msg != null && socket != null) {
             socket.write(msg.toJSON());
         }
@@ -56,6 +64,7 @@ public class WuiController implements IObserver {
     }
     
      public void handleMessage(String message) {
+        System.out.println("Incoming message from Client: " + message);
         if (message.startsWith(GameInstance.CHAT_PREFIX)) {
             this.gameInstance.chat(message, isPlayerOne);
             return;
@@ -68,7 +77,7 @@ public class WuiController implements IObserver {
             // x y -> test which player
             shoot(field);
         } else {
-            System.out.println("Incoming message from Client: " + message);
+            
             send(new InvalidMessage());
         }
     }

@@ -44,6 +44,7 @@ public class WebsocketService {
         in.onMessage((String message) -> this.wuiController.handleMessage(message));
 
         in.onClose(() -> {
+            System.out.println("websocket closed ..");
             soloGame.remove(this.instance);
         });
     }

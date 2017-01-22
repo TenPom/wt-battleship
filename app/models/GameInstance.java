@@ -66,11 +66,16 @@ public class GameInstance {
             // send by Player two -> name of IPlayer2
             msgObject = new ChatMessage(msg, this.instance.getController().getPlayer2().getName());
         }
-        this.getWuiControllerOne().chat(msgObject);
-        this.getWuiControllerTwo().chat(msgObject);
+        System.out.println("Send message to Client: " + msgObject.toJSON());
+        System.out.println("wuiController1: " + wc_One);
+        System.out.println("wuiController2: " + wc_Two);
+        if(null != wc_One) {
+            this.wc_One.chat(msgObject);
+        }
+        if(null != wc_Two) {
+            this.wc_Two.chat(msgObject);
+        }
     }
-
-    
     
     
 }

@@ -68,12 +68,23 @@
                 }
             </div>
         </div>
-        <div class="col-md-4 text-center"></div>
+        <div class="col-md-4 text-center">
+            <div class="chat">
+            <textarea class="form-control" id="chatView" rows="5"></textarea>
+            <div class="input-group">
+                <input id="chatInput" type="text" class="form-control input-sm" placeholder="Type your message here...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-sm" id="btn-chat" onClick="chat()">
+                            Send</button>
+                    </span>
+            </div>
+        </div>
+        </div>
     </div>
       
 @******************************************** GAMEFIELD ************************************************@
 
-    <div class="gamefield">
+    <div id="gamefield">
     
         <div class="row">
             <div class="col-md-3"></div>
@@ -120,19 +131,7 @@
         }
     </div>
     
-@*************************************** ALERTS *********************************************@
+@*************************************** CHAT *********************************************@
 
-    @if(controller.getCurrentState() == State.START) {
-        @controller.setCurrentState(State.GETNAME1)
-        <script> 
-            getPlayerName();
-        </script> 
-    }
-    
-    @if(controller.getCurrentState() == State.GETNAME2) {
-         <script> 
-            getPlayerName();
-        </script> 
-    }
     
 }

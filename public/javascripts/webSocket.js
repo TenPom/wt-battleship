@@ -6,15 +6,65 @@ var socket = new WS('ws://localhost:9000/websocket');
 $(document).ready(function () {
     
     console.log("### socket: " + socket + " ###");
+    console.log("socket rdy: " + socket.readyState)
+    //console.log(socket.send(' ## Ping ## '));
     
-    console.log(socket.send(' ## Ping ## '));
-    
-    socket.onmessage = function (message) {
-        
-        console.log(message);
-        
-    }; 
-    
+    socket.onmessage = handleMessage;
+    socket.onclose = function () {console.log("socket schließt..")};
+    var gamefield = document.getElementById('gamefield');
+    var poly_gamefield = document.createElement('battleship-gamefield');
+    gamefield.appendChild(poly_gamefield);
 });
 
+function chat() {
+    var chatPrefix = "CHAT ";
+    var text = document.getElementById('chatInput').value;
+    document.getElementById('chatInput').value = "";
+    console.log("sending message: " + text);
+    socket.send(chatPrefix + text);
+}
+
+var messageType = {
+        CHAT: "CHAT",
+        // HIT and MISS
+        HIT: "HIT",
+        MISS: "MISS",
+        // INVALID
+        WRONGINPUT: "WRONGINPUT",
+        PLACEERR: "PLACEERR",
+        WAIT: "WAIT",
+        START: "START",
+        // PLACE
+        PLACE1: "PLACE1",
+        PLACE2: "PLACE2",
+        FINALPLACE1: "FINALPLACE1",
+        FINALPLACE2: "FINALPLACE2",
+        // SHOOT
+        SHOOT1: "SHOOT1",
+        SHOOT2: "SHOOT2",
+        // WIN
+        WIN1: "WIN1",
+        WIN2: "WIN2",
+    };
+
+var handleMessage = function handleMessage(message) {
+    var msg = JSON.parse(message.data);
+        console.log("Message %o received", msg);
+        switch (msg.type) {
+            case messageType.CHAT: displayChatMessage(message); break;
+            default: break;
+        }
+};
+
+function displayChatMessage(message) {
+    var msg = JSON.parse(message.data);
+    var date = new Date();
+    var charView = document.getElementById('chatView');
+    chatView.append ("[" + date.getHours() + ":" + date.getMinutes() + "] " + msg.sender + ": " + msg.message + "\n");
+}
+
+function fillField() {
+
+    
+}
 
