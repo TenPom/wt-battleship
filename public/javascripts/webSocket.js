@@ -19,7 +19,6 @@ $(document).ready(function () {
     socket.onclose = function () {console.log("socket schließt..")};
     var gamefield = document.getElementById('gamefield');
     for (var count = 0; count < 10; count++) {
-        console.log("count: " + count);
         var row = document.createElement('div');
         row.setAttribute("class", "row");
         row.setAttribute("id", "row#" + count);
@@ -46,7 +45,6 @@ $(document).ready(function () {
         gamefield.appendChild(row);
     }
     Polymer.updateStyles();
-    console.log(matrix);
     
 });
 
@@ -78,9 +76,17 @@ var handleMessage = function handleMessage(message) {
     var msg = JSON.parse(message.data);
         console.log("Message %o received", msg);
         switch (msg.type) {
-            case messageType.CHAT: displayChatMessage(message); break;
-            case messageType.PLAYERNAME: getPlayerName(); break;
-            case messageType.PLACE1: fillField(message.boardmap); break;
+            case messageType.CHAT: 
+                displayChatMessage(message);
+                break;
+            case messageType.PLAYERNAME: 
+                getPlayerName(); 
+                break;
+            case messageType.PLACE1: 
+            case messageType.PLACE2:
+                fillField(msg.boardmap);
+                setPlaceFunction();
+                break;
             default: break;
         }
 };
@@ -101,9 +107,29 @@ function displayChatMessage(message) {
 }
 
 function fillField(boardmap) {
-    console.log("fillField called..");
     console.log("erstes Feld: " + boardmap[0][0]);
+    for(var row = 0; row < matrix.lenght; row++) {
+       for (var col = 0; col < matrix.lenght; col++) {
+            matrix[row][col].setAttribute("color", boardmap[row][col]);
+       }
+    }
+    Polymer.updateStyles();
 }
+
+function setPlaceFunction() {
+    consol.log("setplacefunction ...")
+   for(var row = 0; row < matrix.lenght; row++) {
+       for (var col = 0; col < matrix.lenght; col++) {
+           console.log("set onClick of: " + matrix[row][col]);
+           matrix[row][col].onClick = placeShip(row, col, "true");
+       }
+   }
+}
+
+function placeShip(row, col, orientation) {
+    socket.send("" + row + " " + col + orientation);
+}
+
 
 function getPlayerName() {
     var playername = prompt("Please enter your name", "");
