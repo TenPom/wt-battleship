@@ -5,7 +5,13 @@ var socket = new WS('ws://localhost:9000/websocket');
 
 var isPlayerOne;
 
-var polyList = [[]];
+//var polyList = [[]];
+
+var matrix = [];
+
+for(var i = 0; i < 10; i++) {
+    matrix[i] = new Array(10);
+}
 
 $(document).ready(function () {
  
@@ -13,30 +19,34 @@ $(document).ready(function () {
     socket.onclose = function () {console.log("socket schließt..")};
     var gamefield = document.getElementById('gamefield');
     for (var count = 0; count < 10; count++) {
+        console.log("count: " + count);
         var row = document.createElement('div');
-        row.setAttribute("class", "row");    
+        row.setAttribute("class", "row");
+        row.setAttribute("id", "row#" + count);
         
-        var border = document.createElement('div');
-        border.setAttribute("class", "col-md-3 text-right");
+        var border1 = document.createElement('div');
+        border1.setAttribute("class", "col-md-2 text-right");
+        
+        var border2 = document.createElement('div');
+        border2.setAttribute("class", "col-md-2 text-right");
         
         var field = document.createElement('div');
-        field.setAttribute("class", "col-md-6 text-center");
+        field.setAttribute("class", "col-md-8 text-center");
         
         for (var bCount = 0; bCount < 10; bCount++) {
             var button = document.createElement('gamefield-button');
             button.setAttribute("color", "O");
-            polyList[count][bCount] = button;
+            matrix [count][bCount] = button;
             field.appendChild(button);
         }
         
-        row.appendChild(border);
+        row.appendChild(border1);
         row.appendChild(field);
-        row.appendChild(border);
-        
+        row.appendChild(border2);
+        gamefield.appendChild(row);
     }
-        
-    gamefield.appendChild(row);
     Polymer.updateStyles();
+    console.log(matrix);
     
 });
 
