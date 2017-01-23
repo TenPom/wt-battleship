@@ -77,50 +77,7 @@
 @******************************************** GAMEFIELD ************************************************@
 
     <div id="gamefield">
-    
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6" text-center>
-                <div class="fieldLabel">
-                    @for(colCount <- 1 until 11) {
-                        <div id="topLabel">@colCount</div>       
-                    }
-                </div>
-            </div>
-            <div class="col-md-3"></div>
-        </div>
         
-        @for(rowCount <- 0 until 10) {
-            <div class="row">
-                <div class="col-md-3 text-right">
-                    <p class="fieldLabel">
-                        @{((65 + rowCount).toChar).toString()}
-                    </p>
-                </div>
-                
-                <div class="col-md-6 text-center">
-                    <div class="btn-group">
-                        @for(colCount <- 0 until 10) {
-                                <button type="button" class="btn btn-default btn-md" onClick="@if(controller.getCurrentState() == State.SHOOT1 || controller.getCurrentState() == State.SHOOT2) {shoot(@rowCount, @colCount)} else {setCords(@rowCount, @colCount)}">
-                                        @rowCount.toString().toUpperCase() @colCount
-                                </button>
-                        }
-                    </div>
-                </div>
-                
-                <div class="col-md-3 text-center">
-                    @if(rowCount == 0 && (controller.getCurrentState == State.PLACE1 || controller.getCurrentState == State.PLACE2)) {
-                        <button type="button" class="btn btn-default" id="horizontal">
-                            horizontal
-                        </button>
-    
-                        <button type="button" class="btn btn-default" id="vertical">
-                            vertical
-                        </button>
-                    }
-                </div>
-            </div>
-        }
     </div>
     
 @*************************************** CHAT *********************************************@

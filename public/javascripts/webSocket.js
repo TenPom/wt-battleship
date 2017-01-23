@@ -3,13 +3,41 @@ var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
 var socket = new WS('ws://localhost:9000/websocket');
 
+var isPlayerOne;
+
+var polyList = [[]];
+
 $(document).ready(function () {
  
     socket.onmessage = handleMessage;
     socket.onclose = function () {console.log("socket schließt..")};
     var gamefield = document.getElementById('gamefield');
-    var poly_gamefield = document.createElement('battleship-gamefield');
-    gamefield.appendChild(poly_gamefield);
+    for (var count = 0; count < 10; count++) {
+        var row = document.createElement('div');
+        row.setAttribute("class", "row");    
+        
+        var border = document.createElement('div');
+        border.setAttribute("class", "col-md-3 text-right");
+        
+        var field = document.createElement('div');
+        field.setAttribute("class", "col-md-6 text-center");
+        
+        for (var bCount = 0; bCount < 10; bCount++) {
+            var button = document.createElement('gamefield-button');
+            button.setAttribute("color", "O");
+            polyList[count][bCount] = button;
+            field.appendChild(button);
+        }
+        
+        row.appendChild(border);
+        row.appendChild(field);
+        row.appendChild(border);
+        
+    }
+        
+    gamefield.appendChild(row);
+    Polymer.updateStyles();
+    
 });
 
 var messageType = {
@@ -42,6 +70,7 @@ var handleMessage = function handleMessage(message) {
         switch (msg.type) {
             case messageType.CHAT: displayChatMessage(message); break;
             case messageType.PLAYERNAME: getPlayerName(); break;
+            case messageType.PLACE1: fillField(message.boardmap); break;
             default: break;
         }
 };
@@ -61,9 +90,9 @@ function displayChatMessage(message) {
     chatView.append ("[" + date.getHours() + ":" + date.getMinutes() + "] " + msg.sender + ": " + msg.message + "\n");
 }
 
-function fillField() {
-
-    
+function fillField(boardmap) {
+    console.log("fillField called..");
+    console.log("erstes Feld: " + boardmap[0][0]);
 }
 
 function getPlayerName() {
