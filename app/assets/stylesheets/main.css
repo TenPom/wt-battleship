@@ -47,7 +47,10 @@ div {
     font-size: 1.2em;
     height: 100%;
 }
-
+#paperButton {
+    z-index: 10;
+    position: absolute;
+}
 #schrift {
     font-family: courier;
     cursor: crosshair;
