@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+
+
+<dom-module id="gamefield-button">
+
+    <template>
+    <paper-button raised id="paperButton" class$="{{color}}"><iron-icon icon$="{{icons}}"></iron-icon></paper-button>
+        <style is="custom-style">
+    
+          paper-button.O {
+            background: blue;
+            color: white;
+          }
+          paper-button.M {
+            background: red;
+            color: white;
+          }
+          paper-button.H {
+            background: green;
+            color: white;
+          }
+          paper-button.S {
+            background: blue;
+            color: white;
+          }
+          paper-button.T {
+              background: red;
+              color: white;
+          }
+
+        </style>
+        
+            
+    </template>
+    
+    <script>
+    Polymer({
+      is: 'gamefield-button',
+      
+        properties: {
+            icons: String,
+                color: {
+                    type: String,
+                    value: "O"
+                },
+        },
+        ready: function() {
+            if(this.color == "H" || this.color == "S"){
+                this.icons = "maps:directions-boat";
+            }else if(this.color == "M"){
+                this.icons = "icons:clear";
+            }
+        }
+    });
+  </script>
+</dom-module>

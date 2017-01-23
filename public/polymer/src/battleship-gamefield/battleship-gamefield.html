@@ -9,8 +9,9 @@
     
             :host {
                 --app-grid-columns: 10;
-                --app-grid-gutter: 50px
+                --app-grid-gutter: 100px
                 --app-grid-item-height: 100px;
+                --app-grid-expandible-item-columns: 10;
             }
             
             ul {
@@ -24,18 +25,21 @@
             
         </style>
     
-            <ul class="app-grid">
-                <li class="item">1</li>
-                <li class="item">2</li>
-                <li class="item">3</li>
-                <li class="item">4</li>
-                <li class="item">5</li>
-                <li class="item">6</li>
-                <li class="item">7</li>
-                <li class="item">8</li>
-                <li class="item">9</li>
-                <li class="item">10</li>
+            <ul id="app-grid" class="app-grid">
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
+                <div class="item"><button type="button" class="btn btn-primary">1</button></div>
             </ul>
+            
     </template>
     
     <script>
