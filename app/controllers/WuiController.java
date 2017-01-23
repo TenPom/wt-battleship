@@ -6,6 +6,7 @@ import de.htwg.battleship.util.State;
 import models.User;
 import models.GameInstance;
 import models.messages.*;
+import models.Converter;
 import play.mvc.WebSocket;
 
 
@@ -24,8 +25,7 @@ public class WuiController implements IObserver {
         this.socket = socket;
         this.isPlayerOne = isPlayerOne;
         master.addObserver(this);
-        System.out.println("WuiController initialized!");
-        send(new ChatMessage("ChatNachricht 1", "testSender"));
+        send(new ChatMessage("Welcome to the Game!", "Battlefield"));
     }
     
     public void setGameInstance(GameInstance gameInstance) {
@@ -37,7 +37,7 @@ public class WuiController implements IObserver {
     }
     
     private void send(Message msg) {
-        System.out.println("[Send Message from: " + this + " to socket: " + socket + "]");
+        //System.out.println("[Send Message from: " + this + " to socket: " + socket + "]");
         if (msg != null && socket != null) {
             socket.write(msg.toJSON());
         }
@@ -45,10 +45,6 @@ public class WuiController implements IObserver {
     
     public void startGame() {
         this.master.startGame();
-    }
-    
-    public void setProfile(String name, String id) {
-        this.master.setPlayerProfile(name, id);
     }
     
      public void handleMessage(String message) {
@@ -61,7 +57,6 @@ public class WuiController implements IObserver {
         
         if(message.startsWith(PLAYERNAME_PREFIX)) {
             String[] name = message.split(" ");
-            System.out.println("## Set Playername to: " + name[1]);
             master.setPlayerName(name[1]);
         }
         
@@ -83,12 +78,10 @@ public class WuiController implements IObserver {
       @Override
     public void update() {
        if(isPlayerOne) {
-           System.out.println("[GameUpdate] -- Player: " + master.getPlayer1().getName());
-           System.out.println("[GameUpdate] -- State:  " + master.getCurrentState());
+           System.out.println("[GameUpdate] -- Player1: " + master.getPlayer1().getName() + " -- State:  " + master.getCurrentState());
            updatePlayerOne();
        } else {
-           System.out.println("[GameUpdate] -- Player: " + master.getPlayer2().getName());
-           System.out.println("[GameUpdate] -- State:  " + master.getCurrentState());
+           System.out.println("[GameUpdate] -- Player2: " + master.getPlayer2().getName() + " -- State:  " + master.getCurrentState());
            updatePlayerTwo();
        }
     }
@@ -98,6 +91,9 @@ public class WuiController implements IObserver {
         State currentState = master.getCurrentState();
         switch(currentState) {
             case GETNAME1: msg = new GetNameMessage(); break;
+            case PLACE1: 
+                msg = new ShipMessage(currentState, Converter.createShipMap(master.getPlayer1().getOwnBoard())); 
+                break;
             default: break;
         }
         this.send(msg);

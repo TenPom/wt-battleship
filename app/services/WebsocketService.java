@@ -18,7 +18,7 @@ public class WebsocketService {
     private GameInstance instance;
     private WuiController wuiController;
     
-    public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out, final String login, final String id) {
+    public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out) {
         if (soloGame.isEmpty()) {
             // first player
             Battleship battleship = Battleship.getInstance(true);
@@ -37,8 +37,6 @@ public class WebsocketService {
             isPlayerOne = false;
             this.wuiController.startGame();
         }
-        
-        this.wuiController.setProfile(login, id);
 
         in.onMessage((String message) -> this.wuiController.handleMessage(message));
 

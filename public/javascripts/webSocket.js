@@ -4,25 +4,13 @@ var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 var socket = new WS('ws://localhost:9000/websocket');
 
 $(document).ready(function () {
-    
-    console.log("### socket: " + socket + " ###");
-    console.log("socket rdy: " + socket.readyState)
-    //console.log(socket.send(' ## Ping ## '));
-    
+ 
     socket.onmessage = handleMessage;
     socket.onclose = function () {console.log("socket schließt..")};
     var gamefield = document.getElementById('gamefield');
     var poly_gamefield = document.createElement('battleship-gamefield');
     gamefield.appendChild(poly_gamefield);
 });
-
-function chat() {
-    var chatPrefix = "CHAT ";
-    var text = document.getElementById('chatInput').value;
-    document.getElementById('chatInput').value = "";
-    console.log("sending message: " + text);
-    socket.send(chatPrefix + text);
-}
 
 var messageType = {
         CHAT: "CHAT",
@@ -57,6 +45,14 @@ var handleMessage = function handleMessage(message) {
             default: break;
         }
 };
+
+function chat() {
+    var chatPrefix = "CHAT ";
+    var text = document.getElementById('chatInput').value;
+    document.getElementById('chatInput').value = "";
+    console.log("sending message: " + text);
+    socket.send(chatPrefix + text);
+}
 
 function displayChatMessage(message) {
     var msg = JSON.parse(message.data);
