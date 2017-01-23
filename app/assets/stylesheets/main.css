@@ -118,3 +118,7 @@ div {
     color: #ffffff;
     margin-bottom: 20px;
 }
+
+#chatView {
+    pointer-events: none;
+}
