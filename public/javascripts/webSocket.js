@@ -26,6 +26,7 @@ function chat() {
 
 var messageType = {
         CHAT: "CHAT",
+        PLAYERNAME: "PLAYERNAME",
         // HIT and MISS
         HIT: "HIT",
         MISS: "MISS",
@@ -52,6 +53,7 @@ var handleMessage = function handleMessage(message) {
         console.log("Message %o received", msg);
         switch (msg.type) {
             case messageType.CHAT: displayChatMessage(message); break;
+            case messageType.PLAYERNAME: getPlayerName(); break;
             default: break;
         }
 };
@@ -66,5 +68,10 @@ function displayChatMessage(message) {
 function fillField() {
 
     
+}
+
+function getPlayerName() {
+    var playername = prompt("Please enter your name", "");
+    socket.send("PLAYERNAME " + playername);
 }
 

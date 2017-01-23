@@ -56,6 +56,10 @@ public class GameInstance {
         this.wc_Two.setGameInstance(this);
     }
     
+    public void startGame() {
+        this.instance.getController().startGame();
+    }
+    
     public void chat(String message, boolean isPlayerOne) {
         String msg = message.replace(GameInstance.CHAT_PREFIX, "");
         ChatMessage msgObject;
