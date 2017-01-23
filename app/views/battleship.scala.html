@@ -32,14 +32,6 @@
                     var msg = JSON.parse(data);
     	    });
        	}
-
-        function getPlayerName() {
-       	    var playername = prompt("Please enter your name", "");
-       	    
-       	    if (null != playername) {
-       	        $.post("/json/" + playername);
-       	    }
-       	}
       
     </script>
    

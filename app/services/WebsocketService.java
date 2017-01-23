@@ -18,15 +18,13 @@ public class WebsocketService {
     private GameInstance instance;
     private WuiController wuiController;
     
-    public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out, final String login, final String id) {
-        System.out.println("start called .. login: " + login + " id: " + id);
+    public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out) {
         if (soloGame.isEmpty()) {
             // first player
             Battleship battleship = Battleship.getInstance(true);
             this.wuiController = new WuiController(battleship.getController(), out, true);
             this.instance = new GameInstance(battleship, out, this.wuiController);
             soloGame.add(this.instance);
-            this.wuiController.startGame();
             isPlayerOne = true;
         } else {
             // second player
@@ -37,9 +35,8 @@ public class WebsocketService {
                 new WuiController(this.instance.getInstance().getController(), out, false);
             this.instance.setWuiControllerTwo(this.wuiController);
             isPlayerOne = false;
+            this.wuiController.startGame();
         }
-        
-        this.wuiController.setProfile(login, id);
 
         in.onMessage((String message) -> this.wuiController.handleMessage(message));
 

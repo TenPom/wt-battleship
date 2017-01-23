@@ -5,39 +5,27 @@ import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.State;
 import models.User;
 import models.GameInstance;
-import models.messages.Message;
-import models.messages.ChatMessage;
-import models.messages.InvalidMessage;
+import models.messages.*;
+import models.Converter;
 import play.mvc.WebSocket;
 
 
 public class WuiController implements IObserver {
     
     private static final String HORIZONTAL_ORIENTATION = "true";
+    private static final String PLAYERNAME_PREFIX = "PLAYERNAME ";
     
     private GameInstance gameInstance;
     private IMasterController master;
     private WebSocket.Out<String> socket;
     private boolean isPlayerOne;
     
-     @Override
-    public void update() {
-       if(isPlayerOne) {
-           System.out.println("[GameUpdate] -- Player: " + master.getPlayer1().getName());
-           System.out.println("[GameUpdate] -- State:  " + master.getCurrentState());
-       } else {
-           System.out.println("[GameUpdate] -- Player: " + master.getPlayer2().getName());
-           System.out.println("[GameUpdate] -- State:  " + master.getCurrentState());
-       }
-    }
-    
     public WuiController(IMasterController master, WebSocket.Out<String> socket, boolean isPlayerOne) {
         this.master = master;
         this.socket = socket;
         this.isPlayerOne = isPlayerOne;
         master.addObserver(this);
-        System.out.println("WuiController initialized!");
-        send(new ChatMessage("ChatNachricht 1", "testSender"));
+        send(new ChatMessage("Welcome to the Game!", "Battlefield"));
     }
     
     public void setGameInstance(GameInstance gameInstance) {
@@ -48,8 +36,8 @@ public class WuiController implements IObserver {
         this.send(message);
     }
     
-     private void send(Message msg) {
-        System.out.println("[Send Message from: " + this + " to socket: " + socket + "]");
+    private void send(Message msg) {
+        //System.out.println("[Send Message from: " + this + " to socket: " + socket + "]");
         if (msg != null && socket != null) {
             socket.write(msg.toJSON());
         }
@@ -59,16 +47,19 @@ public class WuiController implements IObserver {
         this.master.startGame();
     }
     
-    public void setProfile(String name, String id) {
-        this.master.setPlayerProfile(name, id);
-    }
-    
      public void handleMessage(String message) {
         System.out.println("Incoming message from Client: " + message);
+        
         if (message.startsWith(GameInstance.CHAT_PREFIX)) {
             this.gameInstance.chat(message, isPlayerOne);
             return;
         }
+        
+        if(message.startsWith(PLAYERNAME_PREFIX)) {
+            String[] name = message.split(" ");
+            master.setPlayerName(name[1]);
+        }
+        
         String[] field = message.split(" ");
         if (field.length == 3) {
             // x y orientation -> which player
@@ -82,7 +73,43 @@ public class WuiController implements IObserver {
         }
     }
     
-    private void placeShip(String[] field) {
+   
+    
+      @Override
+    public void update() {
+       if(isPlayerOne) {
+           System.out.println("[GameUpdate] -- Player1: " + master.getPlayer1().getName() + " -- State:  " + master.getCurrentState());
+           updatePlayerOne();
+       } else {
+           System.out.println("[GameUpdate] -- Player2: " + master.getPlayer2().getName() + " -- State:  " + master.getCurrentState());
+           updatePlayerTwo();
+       }
+    }
+    
+    private void updatePlayerOne() {
+        Message msg = null;
+        State currentState = master.getCurrentState();
+        switch(currentState) {
+            case GETNAME1: msg = new GetNameMessage(); break;
+            case PLACE1: 
+                msg = new ShipMessage(currentState, Converter.createShipMap(master.getPlayer1().getOwnBoard())); 
+                break;
+            default: break;
+        }
+        this.send(msg);
+    }
+    
+    private void updatePlayerTwo() {
+        Message msg = null;
+        State currentState = master.getCurrentState();
+        switch(currentState) {
+            case GETNAME2: msg = new GetNameMessage(); break;
+            default: break;
+        }
+        this.send(msg);
+    }
+    
+     private void placeShip(String[] field) {
         if (isPlayerOne && master.getCurrentState() == State.PLACE1 ||
             !isPlayerOne && master.getCurrentState() == State.PLACE2) {
             

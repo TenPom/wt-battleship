@@ -4,11 +4,7 @@ var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 var socket = new WS('ws://localhost:9000/websocket');
 
 $(document).ready(function () {
-    
-    console.log("### socket: " + socket + " ###");
-    console.log("socket rdy: " + socket.readyState)
-    //console.log(socket.send(' ## Ping ## '));
-    
+ 
     socket.onmessage = handleMessage;
     socket.onclose = function () {console.log("socket schließt..")};
     var gamefield = document.getElementById('gamefield');
@@ -16,16 +12,9 @@ $(document).ready(function () {
     gamefield.appendChild(poly_gamefield);
 });
 
-function chat() {
-    var chatPrefix = "CHAT ";
-    var text = document.getElementById('chatInput').value;
-    document.getElementById('chatInput').value = "";
-    console.log("sending message: " + text);
-    socket.send(chatPrefix + text);
-}
-
 var messageType = {
         CHAT: "CHAT",
+        PLAYERNAME: "PLAYERNAME",
         // HIT and MISS
         HIT: "HIT",
         MISS: "MISS",
@@ -52,9 +41,18 @@ var handleMessage = function handleMessage(message) {
         console.log("Message %o received", msg);
         switch (msg.type) {
             case messageType.CHAT: displayChatMessage(message); break;
+            case messageType.PLAYERNAME: getPlayerName(); break;
             default: break;
         }
 };
+
+function chat() {
+    var chatPrefix = "CHAT ";
+    var text = document.getElementById('chatInput').value;
+    document.getElementById('chatInput').value = "";
+    console.log("sending message: " + text);
+    socket.send(chatPrefix + text);
+}
 
 function displayChatMessage(message) {
     var msg = JSON.parse(message.data);
@@ -66,5 +64,10 @@ function displayChatMessage(message) {
 function fillField() {
 
     
+}
+
+function getPlayerName() {
+    var playername = prompt("Please enter your name", "");
+    socket.send("PLAYERNAME " + playername);
 }
 

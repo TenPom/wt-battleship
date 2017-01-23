@@ -117,7 +117,6 @@ public class MainController extends Controller {
             session("email", user.email);
             String email = session("email");
             IMasterController controller = Battleship.getInstance().getController();
-            System.out.println("Init controller: " + controller);
             controllers.put(email,controller);
             return redirect(routes.MainController.battleship());
         }
@@ -159,8 +158,7 @@ public class MainController extends Controller {
 	}
 	
 	 public LegacyWebSocket<String> webSocket() {
-	     System.out.println("websocketfunction called... !");
-	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out, "test", "42"));
+	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out));
 	 }
 	
 	//---------------------- Hilfsklassen -----------------------------
