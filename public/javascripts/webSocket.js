@@ -128,7 +128,9 @@ var handleMessage = function handleMessage(message) {
                 removeOnclickFunction(matrix_opponent);
                 break;
             case messageType.PLACEERR:
-                    alert("Ship could not be placed! Try another location");
+                    if(myTurn) {
+                        alert("Ship could not be placed! Try another location");
+                    }
                 break;
             default: break;
         }
