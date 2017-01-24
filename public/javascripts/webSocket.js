@@ -1,11 +1,13 @@
 // get websocket class, firefox has a different way to get it
 var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
-var socket = new WS('ws://localhost:9000/websocket');
+
+
+var socket = new WS(getSocketAddress());
+
+console.log(socket);
 
 var isPlayerOne;
-
-//var polyList = [[]];
 
 var matrix = [];
 
@@ -44,6 +46,22 @@ $(document).ready(function () {
         row.appendChild(border2);
         gamefield.appendChild(row);
     }
+    
+    var menu = document.getElementById('menu');
+    var menuitem = document.createElement('li');
+    var link = document.createElement('a');
+    link.innerHTML = "Restart Game";
+    link.setAttribute("onClick", function(){socket.send("RESTART");});
+    menuitem.appendChild(link);
+    menu.appendChild(menuitem);
+    
+    //Chat mit Enter bestätigen
+    $('#chatInput').keypress(function(key) {
+        if (key.which == 13) {
+            chat();
+        }
+    });
+    
     Polymer.updateStyles();
     
 });
@@ -102,14 +120,15 @@ function chat() {
 function displayChatMessage(message) {
     var msg = JSON.parse(message.data);
     var date = new Date();
+    var hours = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours());
+    var minutes = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
     var charView = document.getElementById('chatView');
-    chatView.append ("[" + date.getHours() + ":" + date.getMinutes() + "] " + msg.sender + ": " + msg.message + "\n");
+    chatView.append ("[" + hours + ":" + minutes + "] " + msg.sender + ": " + msg.message + "\n");
 }
 
 function fillField(boardmap) {
-    console.log("erstes Feld: " + boardmap[0][0]);
-    for(var row = 0; row < matrix.lenght; row++) {
-       for (var col = 0; col < matrix.lenght; col++) {
+    for(var row = 0; row < matrix.length; row++) {
+       for (var col = 0; col < matrix.length; col++) {
             matrix[row][col].setAttribute("color", boardmap[row][col]);
        }
     }
@@ -117,17 +136,17 @@ function fillField(boardmap) {
 }
 
 function setPlaceFunction() {
-    consol.log("setplacefunction ...")
-   for(var row = 0; row < matrix.lenght; row++) {
-       for (var col = 0; col < matrix.lenght; col++) {
-           console.log("set onClick of: " + matrix[row][col]);
-           matrix[row][col].onClick = placeShip(row, col, "true");
+   for(var row = 0; row < matrix.length; row++) {
+       for (var col = 0; col < matrix.length; col++) {
+           matrix[row][col].onclick = placeShip(row, col, " true");
        }
    }
 }
 
 function placeShip(row, col, orientation) {
-    socket.send("" + row + " " + col + orientation);
+    return function (row, col, orientation) {
+        socket.send("" + row + " " + col + orientation);
+    };
 }
 
 
@@ -136,3 +155,7 @@ function getPlayerName() {
     socket.send("PLAYERNAME " + playername);
 }
 
+function getSocketAddress() {
+    var socketAddress = window.location.origin.replace("http", "ws");
+    return socketAddress + "/websocket";
+}

@@ -14,7 +14,6 @@ public class WebsocketService {
     
     private static final List<GameInstance> soloGame = new LinkedList<>();
     
-    private boolean isPlayerOne;
     private GameInstance instance;
     private WuiController wuiController;
     
@@ -25,7 +24,6 @@ public class WebsocketService {
             this.wuiController = new WuiController(battleship.getController(), out, true);
             this.instance = new GameInstance(battleship, out, this.wuiController);
             soloGame.add(this.instance);
-            isPlayerOne = true;
         } else {
             // second player
             this.instance = soloGame.get(0);
@@ -34,7 +32,6 @@ public class WebsocketService {
             this.wuiController =
                 new WuiController(this.instance.getInstance().getController(), out, false);
             this.instance.setWuiControllerTwo(this.wuiController);
-            isPlayerOne = false;
             this.wuiController.startGame();
         }
 

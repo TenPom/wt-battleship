@@ -26,6 +26,7 @@ public class WuiController implements IObserver {
         this.isPlayerOne = isPlayerOne;
         master.addObserver(this);
         send(new ChatMessage("Welcome to the Game!", "Battlefield"));
+        System.out.println("WUI INSTANCE PlayerOne?: " + isPlayerOne);
     }
     
     public void setGameInstance(GameInstance gameInstance) {
@@ -48,7 +49,12 @@ public class WuiController implements IObserver {
     }
     
      public void handleMessage(String message) {
-        System.out.println("Incoming message from Client: " + message);
+        System.out.println("Incoming message from Client: " + message + "   WUI: " + this);
+        
+        if(message.equals("RESTART") {
+            master.restartGame();
+            return;
+        }
         
         if (message.startsWith(GameInstance.CHAT_PREFIX)) {
             this.gameInstance.chat(message, isPlayerOne);
@@ -58,17 +64,18 @@ public class WuiController implements IObserver {
         if(message.startsWith(PLAYERNAME_PREFIX)) {
             String[] name = message.split(" ");
             master.setPlayerName(name[1]);
+            return;
         }
         
         String[] field = message.split(" ");
         if (field.length == 3) {
             // x y orientation -> which player
+            System.out.println("calling place ship..");
             placeShip(field);
         } else if (field.length == 2) {
             // x y -> test which player
             shoot(field);
         } else {
-            
             send(new InvalidMessage());
         }
     }
@@ -78,10 +85,10 @@ public class WuiController implements IObserver {
       @Override
     public void update() {
        if(isPlayerOne) {
-           System.out.println("[GameUpdate] -- Player1: " + master.getPlayer1().getName() + " -- State:  " + master.getCurrentState());
+           System.out.println("[GameUpdate] - " + isPlayerOne + " - Player1: " + master.getPlayer1().getName() + " -- State:  " + master.getCurrentState());
            updatePlayerOne();
        } else {
-           System.out.println("[GameUpdate] -- Player2: " + master.getPlayer2().getName() + " -- State:  " + master.getCurrentState());
+           System.out.println("[GameUpdate] - " + isPlayerOne + " - Player2: " + master.getPlayer2().getName() + " -- State:  " + master.getCurrentState());
            updatePlayerTwo();
        }
     }
@@ -110,9 +117,10 @@ public class WuiController implements IObserver {
     }
     
      private void placeShip(String[] field) {
+         System.out.println("[placeship()] playerOne?: " + isPlayerOne + "STATE: " + master.getCurrentState());
         if (isPlayerOne && master.getCurrentState() == State.PLACE1 ||
             !isPlayerOne && master.getCurrentState() == State.PLACE2) {
-            
+            System.out.println("placeship in master ..");
             master.placeShip(Integer.parseInt(field[0]), Integer.parseInt(field[1]), field[2].equals(HORIZONTAL_ORIENTATION));
 
         }
