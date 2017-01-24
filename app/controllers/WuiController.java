@@ -109,6 +109,11 @@ public class WuiController implements IObserver {
                 msg = new ShootMessage(currentState, 
                                         Converter.createShootMap(master.getPlayer2().getOwnBoard(), true),
                                         Converter.createShootMap(master.getPlayer1().getOwnBoard(), false));
+                break;
+            case HIT:
+            case MISS:
+                msg = new HitMessage(currentState, Converter.createShootMap(master.getPlayer2().getOwnBoard(), true));
+                break;
             default: break;
         }
         this.send(msg);
@@ -136,6 +141,9 @@ public class WuiController implements IObserver {
                                         Converter.createShootMap(master.getPlayer1().getOwnBoard(), true),
                                         Converter.createShootMap(master.getPlayer2().getOwnBoard(), false));
                 break;
+            case HIT:
+            case MISS:
+                msg = new HitMessage(currentState, Converter.createShootMap(master.getPlayer1().getOwnBoard(), true));
             default: break;
         }
         this.send(msg);

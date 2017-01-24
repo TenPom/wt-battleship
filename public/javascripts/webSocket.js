@@ -15,6 +15,9 @@ var matrix_opponent = [];
 initMatrix(matrix_self);
 initMatrix(matrix_opponent);
 
+var shipIcon = "maps:directions-boat";
+var hitIcon  = "icons:clear";
+
 $(document).ready(function () {
  
     socket.onmessage = handleMessage;
@@ -32,7 +35,7 @@ $(document).ready(function () {
     link.innerHTML = "Restart Game";
     link.onclick = function() {
         sendMessage("RESTART");
-    }
+    };
     menuitem.appendChild(link);
     menu.appendChild(menuitem);
     
@@ -102,9 +105,14 @@ var handleMessage = function handleMessage(message) {
                 myTurn = true;
                 setPlayerInfo("shoot");
                 setShootFunction(matrix_self);
-                console.log("Shoot..");
                 fillField(matrix_self, msg.ownMap);
                 fillField(matrix_opponent, msg.opponentMap);
+                break;
+            case messageType.HIT:
+            case messageType.MISS:
+                myTurn = false;
+                setPlayerInfo("wait for your opponent");
+                fillField(matrix_self, msg.hitMap);
                 break;
             default: break;
         }
@@ -163,17 +171,15 @@ function placeShip() {
 function setShootFunction(matrix) {
      for(var row = 0; row < matrix.length; row++) {
        for (var col = 0; col < matrix.length; col++) {
-           matrix[row][col].onclick = shoot();
-           console.log("set shoot");
+           matrix[row][col].onclick = shootOnField();
        }
    }
 }
 
-function shoot() {
+function shootOnField() {
     return function () {
-        console.log("shoot(): " + this.getAttribute("row") + " " + this.getAttribute("col"));
         sendMessage(this.getAttribute("row") + " " + this.getAttribute("col"));
-    }
+    };
 }
 
 function removeOnclickFunction(matrix) {
