@@ -21,7 +21,7 @@ var hitIcon  = "icons:clear";
 $(document).ready(function () {
  
     socket.onmessage = handleMessage;
-    socket.onclose = function () {console.log("socket schließt..")};
+    socket.onclose = function () {setPlayerInfo("Your opponent left the Game!");};
     
     // ------- BUILD GAMEFIELD --------
     createGamefield(matrix_self, true);
@@ -95,7 +95,7 @@ var handleMessage = function handleMessage(message) {
             case messageType.FINALPLACE1:
             case messageType.FINALPLACE2:
                 myTurn = true;
-                setPlayerInfo("Place your ships on the right side.");
+                setPlayerInfo("Place your ships on the right side. (CTRL + Click = vertical)");
                 fillField(matrix_opponent, msg.boardmap);
                 setPlaceFunction(matrix_opponent);
                 break;
@@ -127,13 +127,15 @@ var handleMessage = function handleMessage(message) {
                 removeOnclickFunction(matrix_self);
                 removeOnclickFunction(matrix_opponent);
                 break;
+            case messageType.PLACEERR:
+                    alert("Ship could not be placed! Try another location");
+                break;
             default: break;
         }
 };
 
 function sendMessage(message) {
     if (myTurn) {
-        //console.log("Sending Message to Server: " + message);
         socket.send(message);
     }
 }
@@ -177,12 +179,14 @@ function setPlaceFunction(matrix) {
 
 function placeShip() {
     return function () {
-        sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
+        if(!event.ctrlKey)
+            sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " false");
+        else {
+            console.log("ctrl Click!");
+            sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
+        }
+        
     };
-}
-
-function placeShip2(orientation) {
-    sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " " + orientation);
 }
 
 function setShootFunction(matrix) {
@@ -225,10 +229,13 @@ function initMatrix(matrix) {
 
 function createGamefield(matrix, self) {
     var gamefield;
+    var id;
     if(self === true) {
         gamefield = document.getElementById('gamefield_self');
+        id = "gamefield_leftSide";
     } else {
         gamefield = document.getElementById('gamefield_opponent');
+        id = "gamefield_rightSide";
     }
     
     for (var count = 0; count < 10; count++) {
@@ -236,28 +243,15 @@ function createGamefield(matrix, self) {
         row.setAttribute("class", "row");
         row.setAttribute("id", "row#" + count);
         
-        //var border1 = document.createElement('div');
-        //border1.setAttribute("class", "col-md-2 text-right");
-        
-        //var border2 = document.createElement('div');
-        //border2.setAttribute("class", "col-md-2 text-right");
-        
-        //var field = document.createElement('div');
-        //field.setAttribute("class", "col-md-8 text-center");
-        
         for (var bCount = 0; bCount < 10; bCount++) {
             var button = document.createElement('gamefield-button');
             button.setAttribute("row", count.toString());
             button.setAttribute("col", bCount.toString());
             button.setAttribute("color", "O");
+            button.setAttribute("id", id);
             matrix [count][bCount] = button;
-            //field.appendChild(button);
             row.appendChild(button);
         }
-        
-        //row.appendChild(border1);
-        //row.appendChild(field);
-        //row.appendChild(border2);
         gamefield.appendChild(row);
     }
 }

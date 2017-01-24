@@ -119,6 +119,9 @@ public class WuiController implements IObserver {
             case WIN2:
                 msg = createWinMessage(currentState);
                 break;
+            case PLACEERR:
+                msg = new PlaceErrorMessage(currentState);
+                break;
             default: break;
         }
         this.send(msg);
@@ -154,6 +157,9 @@ public class WuiController implements IObserver {
             case WIN2:
                 msg = createWinMessage(currentState);
                 break;
+            case PLACEERR:
+                msg = new PlaceErrorMessage(currentState);
+                break;
             default: break;
         }
         this.send(msg);
@@ -162,7 +168,7 @@ public class WuiController implements IObserver {
      private void placeShip(String[] field) {
         if (isPlayerOne && master.getCurrentState() == State.PLACE1 ||
             !isPlayerOne && master.getCurrentState() == State.PLACE2) {
-                
+                System.out.println("place ship: " + Integer.parseInt(field[0]) + Integer.parseInt(field[1]) + field[2].equals(HORIZONTAL_ORIENTATION));
             master.placeShip(Integer.parseInt(field[0]), Integer.parseInt(field[1]), field[2].equals(HORIZONTAL_ORIENTATION));
         }
     }

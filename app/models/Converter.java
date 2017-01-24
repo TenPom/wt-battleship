@@ -29,7 +29,7 @@ public class Converter {
                 }
             } else {
                 int x = ship.getX();
-                for(int y = ship.getY(); x < (ship.getY() + ship.getSize()); y++) {
+                for(int y = ship.getY(); y < (ship.getY() + ship.getSize()); y++) {
                     shipMap.get(x).remove(y);
                     shipMap.get(x).put(y, FIELD_SHIP);
                 }
