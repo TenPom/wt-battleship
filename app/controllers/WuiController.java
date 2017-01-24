@@ -8,7 +8,7 @@ import models.GameInstance;
 import models.messages.*;
 import models.Converter;
 import play.mvc.WebSocket;
-
+import akka.actor.*;
 
 public class WuiController implements IObserver {
     
@@ -17,10 +17,10 @@ public class WuiController implements IObserver {
     
     private GameInstance gameInstance;
     private IMasterController master;
-    private WebSocket.Out<String> socket;
+    private ActorRef socket;
     private boolean isPlayerOne;
     
-    public WuiController(IMasterController master, WebSocket.Out<String> socket, boolean isPlayerOne) {
+    public WuiController(IMasterController master, ActorRef socket, boolean isPlayerOne) {
         this.master = master;
         this.socket = socket;
         this.isPlayerOne = isPlayerOne;
@@ -40,7 +40,7 @@ public class WuiController implements IObserver {
     private void send(Message msg) {
         //System.out.println("[Send Message from: " + this + " to socket: " + socket + "]");
         if (msg != null && socket != null) {
-            socket.write(msg.toJSON());
+            socket.tell(msg.toJSON(), socket);
         }
     }
     
@@ -51,7 +51,7 @@ public class WuiController implements IObserver {
      public void handleMessage(String message) {
         System.out.println("Incoming message from Client: " + message + "   WUI: " + this);
         
-        if(message.equals("RESTART") {
+        if(message.equals("RESTART")) {
             master.restartGame();
             return;
         }

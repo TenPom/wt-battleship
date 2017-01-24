@@ -1,9 +1,9 @@
 package models;
 
 import models.messages.ChatMessage;
-import play.mvc.WebSocket.Out;
 import controllers.WuiController;
 import de.htwg.battleship.Battleship;
+import akka.actor.*;
 
 
 public class GameInstance {
@@ -14,13 +14,13 @@ public class GameInstance {
     
     private final WuiController wc_One;
     
-    private final Out socket_One;
+    private final ActorRef socket_One;
     
     private WuiController wc_Two;
     
-    private Out socket_Two;
+    private ActorRef socket_Two;
     
-    public GameInstance(final Battleship instance, final Out socket_One, final WuiController wuiController_One) {
+    public GameInstance(final Battleship instance, final  ActorRef socket_One, final WuiController wuiController_One) {
         this.instance = instance;
         this.wc_One = wuiController_One;
         this.socket_One = socket_One;
@@ -31,15 +31,15 @@ public class GameInstance {
         return instance;
     }
     
-    public Out getSocketOne() {
+    public ActorRef getSocketOne() {
         return this.socket_One;
     }
     
-    public Out getSocketTwo() {
+    public ActorRef getSocketTwo() {
         return this.socket_Two;
     }
     
-    public void setSocketTwo(Out socketTwo) {
+    public void setSocketTwo(ActorRef socketTwo) {
         this.socket_Two = socketTwo;
     }
     

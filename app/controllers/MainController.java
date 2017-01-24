@@ -1,6 +1,5 @@
 package controllers;
 
-import utils.WebsocketUtils;
 import models.GameInstance;
 
 import java.util.Map;
@@ -23,9 +22,9 @@ import play.libs.F;
 import play.libs.Json;
 import play.libs.openid.*;
 
-import play.routing.JavaScriptReverseRouter;
+import akka.actor.*;
 
-import services.WebsocketService;
+import play.routing.JavaScriptReverseRouter;
 
 import javax.inject.Inject;
 
@@ -43,8 +42,6 @@ public class MainController extends Controller {
 	private static Map<String, IMasterController> controllers = new HashMap<>();
 	
 	private static Map<String, String> users = new HashMap<>();
-	
-	private final WebsocketService websocketService = new WebsocketService();
 	
 	@play.mvc.Security.Authenticated(Secured.class)
 	public Result battleship() {
@@ -154,7 +151,7 @@ public class MainController extends Controller {
     }
 	
 	 public LegacyWebSocket<String> webSocket() {
-	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out));
+	    return WebSocket.withActor(services.WebsocketService::props);
 	 }
 	
 	//---------------------- Hilfsklassen -----------------------------

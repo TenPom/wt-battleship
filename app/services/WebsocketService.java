@@ -4,20 +4,27 @@ import java.util.List;
 import java.util.LinkedList;
 
 import play.mvc.WebSocket;
+import services.WebsocketService;
 
 import models.GameInstance;
 import controllers.WuiController;
 
+import akka.actor.*;
+
 import de.htwg.battleship.Battleship;
 
-public class WebsocketService {
+public class WebsocketService extends UntypedActor {
     
     private static final List<GameInstance> soloGame = new LinkedList<>();
     
     private GameInstance instance;
     private WuiController wuiController;
     
-    public void startWebsocket(WebSocket.In<String> in, WebSocket.Out<String> out) {
+    public static Props props(ActorRef out) {
+        return Props.create(WebsocketService.class, out);
+    }
+
+    public WebsocketService(ActorRef out) {
         if (soloGame.isEmpty()) {
             // first player
             Battleship battleship = Battleship.getInstance(true);
@@ -34,12 +41,9 @@ public class WebsocketService {
             this.instance.setWuiControllerTwo(this.wuiController);
             this.wuiController.startGame();
         }
+    }
 
-        in.onMessage((String message) -> this.wuiController.handleMessage(message));
-
-        in.onClose(() -> {
-            System.out.println("websocket closed ..");
-            soloGame.remove(this.instance);
-        });
+    public void onReceive(Object message) throws Exception {
+        this.wuiController.handleMessage((String)message);
     }
 }
