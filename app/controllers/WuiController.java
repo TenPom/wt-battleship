@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Map;
 import de.htwg.battleship.controller.IMasterController;
 import de.htwg.battleship.observer.IObserver;
 import de.htwg.battleship.util.State;
@@ -114,6 +115,10 @@ public class WuiController implements IObserver {
             case MISS:
                 msg = new HitMessage(currentState, Converter.createShootMap(master.getPlayer2().getOwnBoard(), true));
                 break;
+            case WIN1:
+            case WIN2:
+                msg = createWinMessage(currentState);
+                break;
             default: break;
         }
         this.send(msg);
@@ -144,6 +149,11 @@ public class WuiController implements IObserver {
             case HIT:
             case MISS:
                 msg = new HitMessage(currentState, Converter.createShootMap(master.getPlayer1().getOwnBoard(), true));
+                break;
+            case WIN1:
+            case WIN2:
+                msg = createWinMessage(currentState);
+                break;
             default: break;
         }
         this.send(msg);
@@ -164,5 +174,16 @@ public class WuiController implements IObserver {
         }
         // else -> the player isn't allowed to shoot in this state
         // instruction is omitted
+    }
+    
+    private WinMessage createWinMessage(State currentState) {
+        boolean win = (currentState == State.WIN1 && isPlayerOne) ? true : false;
+        Map<Integer, Map<Integer, Character>> ownMap = Converter.createShootMap(master.getPlayer1().getOwnBoard(), false);
+        Map<Integer, Map<Integer, Character>> opponentMap = Converter.createShootMap(master.getPlayer2().getOwnBoard(), false);
+        
+        if(isPlayerOne) 
+            return new WinMessage(currentState, win, ownMap, opponentMap);
+        else
+            return new WinMessage(currentState, win, opponentMap, ownMap);
     }
 }

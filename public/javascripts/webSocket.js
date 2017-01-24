@@ -80,7 +80,7 @@ var handleMessage = function handleMessage(message) {
         switch (msg.type) {
             case messageType.WAIT:
                 myTurn = false;
-                setPlayerInfo("game is about to begin");
+                setPlayerInfo("Game is about to begin");
                 break;
             case messageType.CHAT: 
                 displayChatMessage(message);
@@ -88,14 +88,14 @@ var handleMessage = function handleMessage(message) {
             case messageType.PLAYERNAME:
                 myTurn = true;
                 getPlayerName(); 
-                 setPlayerInfo("game is about to begin");
+                 setPlayerInfo("Game is about to begin");
                 break;
             case messageType.PLACE1: 
             case messageType.PLACE2:
             case messageType.FINALPLACE1:
             case messageType.FINALPLACE2:
                 myTurn = true;
-                setPlayerInfo("place your ships");
+                setPlayerInfo("Place your ships");
                 fillField(matrix_opponent, msg.boardmap);
                 setPlaceFunction(matrix_opponent);
                 break;
@@ -103,7 +103,7 @@ var handleMessage = function handleMessage(message) {
             case messageType.SHOOT2:
                 removeOnclickFunction(matrix_opponent);
                 myTurn = true;
-                setPlayerInfo("shoot");
+                setPlayerInfo("Shoot");
                 setShootFunction(matrix_self);
                 fillField(matrix_self, msg.ownMap);
                 fillField(matrix_opponent, msg.opponentMap);
@@ -111,8 +111,19 @@ var handleMessage = function handleMessage(message) {
             case messageType.HIT:
             case messageType.MISS:
                 myTurn = false;
-                setPlayerInfo("wait for your opponent");
+                setPlayerInfo("Wait for your opponent");
                 fillField(matrix_self, msg.hitMap);
+                break;
+            case messageType.WIN1:
+            case messageType.WIN2:
+                myTurn = false;
+                if(msg.win) {
+                    setPlayerInfo("YOU WON!");
+                } else {
+                    setPlayerInfo("You lost. Sorry Mate");
+                }
+                fillField(matrix_self, msg.ownMap);
+                fillField(matrix_opponent, msg.opponentMap);
                 break;
             default: break;
         }
