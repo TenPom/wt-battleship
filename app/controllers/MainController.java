@@ -47,10 +47,8 @@ public class MainController extends Controller {
 	public Result battleship() {
 	    String email = session("email");
 	    IMasterController controller = controllers.get(email);
-	    System.out.println("controller: " + controller + "\tUser: " + email);
 	    if(null == controller) {
 	        session().clear();
-	        System.out.println("session " + email + " clear!!!!!!!!!!!!!!!!!");
 	        return this.login();
 	    }
 	    return ok(views.html.battleship.render(controller, email));
@@ -76,14 +74,10 @@ public class MainController extends Controller {
 	}
 
 	public Result wuiTuiInterface(String command) {
-	    System.out.println("wuiTuimethode");
-	    System.out.println("instanz: " + Battleship.getInstance());
 		TUI tui = Battleship.getInstance().getTui();
 		tui.processInputLine(command);
 		String email = session("email");
-		System.out.println("SESSION_EMAIL: " + email);
 	    IMasterController controller = controllers.get(email);
-	    System.out.println("\n\n\ncommandfunktion: " + controller + "\n\n\n");
 		return ok(views.html.battleship.render(controller, email));
 	}
 	

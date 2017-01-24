@@ -29,7 +29,7 @@
             color: white;
           }
           paper-button.S {
-            background: blue;
+            background: black;
             color: white;
           }
           paper-button.T {
@@ -52,8 +52,18 @@
                     type: String,
                     value: "O"
                 },
+            row: {
+                type: String,
+                value: "0"
+            },
+            
+            col: {
+                type: String,
+                value: "0"
+            }
         },
-        ready: function() {
+        
+        attached: function() {
             if(this.color == "H" || this.color == "S"){
                 this.icons = "maps:directions-boat";
             }else if(this.color == "M"){

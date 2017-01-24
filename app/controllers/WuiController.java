@@ -26,7 +26,6 @@ public class WuiController implements IObserver {
         this.isPlayerOne = isPlayerOne;
         master.addObserver(this);
         send(new ChatMessage("Welcome to the Game!", "Battlefield"));
-        System.out.println("WUI INSTANCE PlayerOne?: " + isPlayerOne);
     }
     
     public void setGameInstance(GameInstance gameInstance) {
@@ -70,7 +69,6 @@ public class WuiController implements IObserver {
         String[] field = message.split(" ");
         if (field.length == 3) {
             // x y orientation -> which player
-            System.out.println("calling place ship..");
             placeShip(field);
         } else if (field.length == 2) {
             // x y -> test which player
@@ -111,18 +109,18 @@ public class WuiController implements IObserver {
         State currentState = master.getCurrentState();
         switch(currentState) {
             case GETNAME2: msg = new GetNameMessage(); break;
+            case PLACE2: msg = new ShipMessage(currentState, Converter.createShipMap(master.getPlayer2().getOwnBoard())); 
+                break;
             default: break;
         }
         this.send(msg);
     }
     
      private void placeShip(String[] field) {
-         System.out.println("[placeship()] playerOne?: " + isPlayerOne + "STATE: " + master.getCurrentState());
         if (isPlayerOne && master.getCurrentState() == State.PLACE1 ||
             !isPlayerOne && master.getCurrentState() == State.PLACE2) {
-            System.out.println("placeship in master ..");
+                
             master.placeShip(Integer.parseInt(field[0]), Integer.parseInt(field[1]), field[2].equals(HORIZONTAL_ORIENTATION));
-
         }
     }
     

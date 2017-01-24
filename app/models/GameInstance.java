@@ -71,8 +71,6 @@ public class GameInstance {
             msgObject = new ChatMessage(msg, this.instance.getController().getPlayer2().getName());
         }
         System.out.println("Send message to Client: " + msgObject.toJSON());
-        System.out.println("wuiController1: " + wc_One);
-        System.out.println("wuiController2: " + wc_Two);
         if(null != wc_One) {
             this.wc_One.chat(msgObject);
         }

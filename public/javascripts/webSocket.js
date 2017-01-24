@@ -19,6 +19,8 @@ $(document).ready(function () {
  
     socket.onmessage = handleMessage;
     socket.onclose = function () {console.log("socket schließt..")};
+    
+    // ------- BUILD GAMEFIELD --------
     var gamefield = document.getElementById('gamefield');
     for (var count = 0; count < 10; count++) {
         var row = document.createElement('div');
@@ -36,6 +38,8 @@ $(document).ready(function () {
         
         for (var bCount = 0; bCount < 10; bCount++) {
             var button = document.createElement('gamefield-button');
+            button.setAttribute("row", count.toString());
+            button.setAttribute("col", bCount.toString());
             button.setAttribute("color", "O");
             matrix [count][bCount] = button;
             field.appendChild(button);
@@ -50,8 +54,12 @@ $(document).ready(function () {
     var menu = document.getElementById('menu');
     var menuitem = document.createElement('li');
     var link = document.createElement('a');
+    link.setAttribute("class", "hvr-grow");
     link.innerHTML = "Restart Game";
-    link.setAttribute("onClick", function(){socket.send("RESTART");});
+    link.onclick = function() {
+        socket.send("RESTART");
+        console.log("send restart message")
+    }
     menuitem.appendChild(link);
     menu.appendChild(menuitem);
     
@@ -138,14 +146,15 @@ function fillField(boardmap) {
 function setPlaceFunction() {
    for(var row = 0; row < matrix.length; row++) {
        for (var col = 0; col < matrix.length; col++) {
-           matrix[row][col].onclick = placeShip(row, col, " true");
+           matrix[row][col].onclick = placeShip();
        }
    }
 }
 
-function placeShip(row, col, orientation) {
-    return function (row, col, orientation) {
-        socket.send("" + row + " " + col + orientation);
+function placeShip() {
+    return function () {
+        console.log("send placeMessage.." + this.getAttribute("row") + " " + this.getAttribute("col"));
+        socket.send(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
     };
 }
 
