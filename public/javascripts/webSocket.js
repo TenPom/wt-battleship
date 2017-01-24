@@ -1,8 +1,6 @@
 // get websocket class, firefox has a different way to get it
 var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
-
-
 var socket = new WS(getSocketAddress());
 
 console.log(socket);
@@ -180,11 +178,10 @@ function setPlaceFunction(matrix) {
 }
 
 function placeShip() {
-    return function () {
+    return function (event) {
         if(!event.ctrlKey)
             sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " false");
         else {
-            console.log("ctrl Click!");
             sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
         }
         
