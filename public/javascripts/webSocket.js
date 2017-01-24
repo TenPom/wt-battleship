@@ -7,13 +7,13 @@ var socket = new WS(getSocketAddress());
 
 console.log(socket);
 
-var isPlayerOne;
+var myTurn = true;
 
-var matrix = [];
+var matrix_self = [];
+var matrix_opponent = [];
 
-for(var i = 0; i < 10; i++) {
-    matrix[i] = new Array(10);
-}
+initMatrix(matrix_self);
+initMatrix(matrix_opponent);
 
 $(document).ready(function () {
  
@@ -21,35 +21,9 @@ $(document).ready(function () {
     socket.onclose = function () {console.log("socket schließt..")};
     
     // ------- BUILD GAMEFIELD --------
-    var gamefield = document.getElementById('gamefield');
-    for (var count = 0; count < 10; count++) {
-        var row = document.createElement('div');
-        row.setAttribute("class", "row");
-        row.setAttribute("id", "row#" + count);
-        
-        var border1 = document.createElement('div');
-        border1.setAttribute("class", "col-md-2 text-right");
-        
-        var border2 = document.createElement('div');
-        border2.setAttribute("class", "col-md-2 text-right");
-        
-        var field = document.createElement('div');
-        field.setAttribute("class", "col-md-8 text-center");
-        
-        for (var bCount = 0; bCount < 10; bCount++) {
-            var button = document.createElement('gamefield-button');
-            button.setAttribute("row", count.toString());
-            button.setAttribute("col", bCount.toString());
-            button.setAttribute("color", "O");
-            matrix [count][bCount] = button;
-            field.appendChild(button);
-        }
-        
-        row.appendChild(border1);
-        row.appendChild(field);
-        row.appendChild(border2);
-        gamefield.appendChild(row);
-    }
+    createGamefield(matrix_self, true);
+    createGamefield(matrix_opponent, false);
+    
     
     var menu = document.getElementById('menu');
     var menuitem = document.createElement('li');
@@ -57,8 +31,7 @@ $(document).ready(function () {
     link.setAttribute("class", "hvr-grow");
     link.innerHTML = "Restart Game";
     link.onclick = function() {
-        socket.send("RESTART");
-        console.log("send restart message")
+        sendMessage("RESTART");
     }
     menuitem.appendChild(link);
     menu.appendChild(menuitem);
@@ -102,26 +75,52 @@ var handleMessage = function handleMessage(message) {
     var msg = JSON.parse(message.data);
         console.log("Message %o received", msg);
         switch (msg.type) {
+            case messageType.WAIT:
+                myTurn = false;
+                setPlayerInfo("game is about to begin");
+                break;
             case messageType.CHAT: 
                 displayChatMessage(message);
                 break;
-            case messageType.PLAYERNAME: 
+            case messageType.PLAYERNAME:
+                myTurn = true;
                 getPlayerName(); 
+                 setPlayerInfo("game is about to begin");
                 break;
             case messageType.PLACE1: 
             case messageType.PLACE2:
-                fillField(msg.boardmap);
-                setPlaceFunction();
+            case messageType.FINALPLACE1:
+            case messageType.FINALPLACE2:
+                myTurn = true;
+                setPlayerInfo("place your ships");
+                fillField(matrix_opponent, msg.boardmap);
+                setPlaceFunction(matrix_opponent);
+                break;
+            case messageType.SHOOT1:
+            case messageType.SHOOT2:
+                removeOnclickFunction(matrix_opponent);
+                myTurn = true;
+                setPlayerInfo("shoot");
+                setShootFunction(matrix_self);
+                console.log("Shoot..");
+                fillField(matrix_self, msg.ownMap);
+                fillField(matrix_opponent, msg.opponentMap);
                 break;
             default: break;
         }
 };
 
+function sendMessage(message) {
+    if (myTurn) {
+        console.log("Sending Message to Server: " + message);
+        socket.send(message);
+    }
+}
+
 function chat() {
     var chatPrefix = "CHAT ";
     var text = document.getElementById('chatInput').value;
     document.getElementById('chatInput').value = "";
-    console.log("sending message: " + text);
     socket.send(chatPrefix + text);
 }
 
@@ -134,7 +133,11 @@ function displayChatMessage(message) {
     chatView.append ("[" + hours + ":" + minutes + "] " + msg.sender + ": " + msg.message + "\n");
 }
 
-function fillField(boardmap) {
+function setPlayerInfo(text) {
+    $('#playinfo').text = text;
+}
+
+function fillField(matrix, boardmap) {
     for(var row = 0; row < matrix.length; row++) {
        for (var col = 0; col < matrix.length; col++) {
             matrix[row][col].setAttribute("color", boardmap[row][col]);
@@ -143,7 +146,7 @@ function fillField(boardmap) {
     Polymer.updateStyles();
 }
 
-function setPlaceFunction() {
+function setPlaceFunction(matrix) {
    for(var row = 0; row < matrix.length; row++) {
        for (var col = 0; col < matrix.length; col++) {
            matrix[row][col].onclick = placeShip();
@@ -153,18 +156,85 @@ function setPlaceFunction() {
 
 function placeShip() {
     return function () {
-        console.log("send placeMessage.." + this.getAttribute("row") + " " + this.getAttribute("col"));
-        socket.send(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
+        sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
     };
 }
 
+function setShootFunction(matrix) {
+     for(var row = 0; row < matrix.length; row++) {
+       for (var col = 0; col < matrix.length; col++) {
+           matrix[row][col].onclick = shoot();
+           console.log("set shoot");
+       }
+   }
+}
+
+function shoot() {
+    return function () {
+        console.log("shoot(): " + this.getAttribute("row") + " " + this.getAttribute("col"));
+        sendMessage(this.getAttribute("row") + " " + this.getAttribute("col"));
+    }
+}
+
+function removeOnclickFunction(matrix) {
+     for(var row = 0; row < matrix.length; row++) {
+       for (var col = 0; col < matrix.length; col++) {
+           matrix[row][col].onclick = "";
+       }
+   }
+}
 
 function getPlayerName() {
     var playername = prompt("Please enter your name", "");
-    socket.send("PLAYERNAME " + playername);
+    sendMessage("PLAYERNAME " + playername);
 }
 
 function getSocketAddress() {
     var socketAddress = window.location.origin.replace("http", "ws");
     return socketAddress + "/websocket";
+}
+
+function initMatrix(matrix) {
+    for(var i = 0; i < 10; i++) {
+    matrix[i] = new Array(10);
+}
+}
+
+function createGamefield(matrix, self) {
+    var gamefield;
+    if(self === true) {
+        gamefield = document.getElementById('gamefield_self');
+    } else {
+        gamefield = document.getElementById('gamefield_opponent');
+    }
+    
+    for (var count = 0; count < 10; count++) {
+        var row = document.createElement('div');
+        row.setAttribute("class", "row");
+        row.setAttribute("id", "row#" + count);
+        
+        //var border1 = document.createElement('div');
+        //border1.setAttribute("class", "col-md-2 text-right");
+        
+        //var border2 = document.createElement('div');
+        //border2.setAttribute("class", "col-md-2 text-right");
+        
+        //var field = document.createElement('div');
+        //field.setAttribute("class", "col-md-8 text-center");
+        
+        for (var bCount = 0; bCount < 10; bCount++) {
+            var button = document.createElement('gamefield-button');
+            button.setAttribute("row", count.toString());
+            button.setAttribute("col", bCount.toString());
+            button.setAttribute("color", "O");
+            matrix [count][bCount] = button;
+            //field.appendChild(button);
+            row.appendChild(button);
+        }
+        
+        //row.appendChild(border1);
+        //row.appendChild(field);
+        //row.appendChild(border2);
+        gamefield.appendChild(row);
+    }
 }

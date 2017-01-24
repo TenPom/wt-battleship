@@ -40,24 +40,8 @@
     <div class="row">
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4">
-            <div class="alert alert-info alert-dismissable text-center">
-                @{controller.getCurrentState() match {
-                    case State.PLACE1 =>
-                        controller.getPlayer1().getName() + " now place the ship with the length of " + (controller.getPlayer1().getOwnBoard().getShips() + 2);
-                        
-                    case State.PLACE2 =>
-                        controller.getPlayer2().getName() + " now place the ship with the length of " + (controller.getPlayer2().getOwnBoard().getShips() + 2);
-                    
-                    case State.SHOOT1 =>
-                        controller.getPlayer1().getName() + " is now at the turn to shoot";
-                        
-                    case State.SHOOT2 =>
-                        controller.getPlayer2().getName() + " is now at the turn to shoot";
-                        
-                    case _ =>
-                        "status: " + controller.getCurrentState();
-                }
-                }
+            <div class="alert alert-info alert-dismissable text-center" id="playerinfo">
+                wait for opponent!
             </div>
         </div>
         
@@ -65,7 +49,10 @@
       
 @******************************************** GAMEFIELD ************************************************@
 
-    <div id="gamefield"></div>
+    <div id="gamefield">
+        <div class="col-md-6 text-center" id="gamefield_self"></div>
+        <div class="col-md-6 text-center" id="gamefield_opponent"></div>
+    </div>
     
     <div class="row">
     <div class="col-md-4"></div>

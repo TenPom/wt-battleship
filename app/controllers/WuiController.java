@@ -96,9 +96,19 @@ public class WuiController implements IObserver {
         State currentState = master.getCurrentState();
         switch(currentState) {
             case GETNAME1: msg = new GetNameMessage(); break;
-            case PLACE1: 
+            case GETNAME2: msg = new WaitMessage(); break;
+            case PLACE1:
+            case FINALPLACE1:
                 msg = new ShipMessage(currentState, Converter.createShipMap(master.getPlayer1().getOwnBoard())); 
                 break;
+            case PLACE2:
+            case FINALPLACE2:
+                msg = new WaitMessage();
+                break;
+            case SHOOT1:
+                msg = new ShootMessage(currentState, 
+                                        Converter.createShootMap(master.getPlayer2().getOwnBoard(), true),
+                                        Converter.createShootMap(master.getPlayer1().getOwnBoard(), false));
             default: break;
         }
         this.send(msg);
@@ -108,8 +118,23 @@ public class WuiController implements IObserver {
         Message msg = null;
         State currentState = master.getCurrentState();
         switch(currentState) {
+            case GETNAME1: msg = new WaitMessage(); break;
             case GETNAME2: msg = new GetNameMessage(); break;
-            case PLACE2: msg = new ShipMessage(currentState, Converter.createShipMap(master.getPlayer2().getOwnBoard())); 
+            case PLACE1:
+            case FINALPLACE1:
+                msg = new WaitMessage();
+                break;
+            case PLACE2: 
+            case FINALPLACE2:    
+                msg = new ShipMessage(currentState, Converter.createShipMap(master.getPlayer2().getOwnBoard())); 
+                break;
+            case SHOOT1:
+                msg = new WaitMessage();
+                break;
+            case SHOOT2:
+                msg = new ShootMessage(currentState,
+                                        Converter.createShootMap(master.getPlayer1().getOwnBoard(), true),
+                                        Converter.createShootMap(master.getPlayer2().getOwnBoard(), false));
                 break;
             default: break;
         }

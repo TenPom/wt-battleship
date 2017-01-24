@@ -1,9 +1,7 @@
 package models.messages;
 
-import de.htwg.battleship.util.State;
-
 import java.util.Map;
-import java.util.Set;
+import de.htwg.battleship.util.State;
 
 public class ShipMessage extends Message {
     

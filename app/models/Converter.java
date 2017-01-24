@@ -10,23 +10,17 @@ import de.htwg.battleship.util.StatCollection;
 public class Converter {
     
     private static final char FIELD_EMPTY = 'O';
-    private static final char FIELD_SHIP  = 'S'; 
-    
-    private static final int SHIP_DUMMY = -1;
+    private static final char FIELD_SHIP  = 'S';
+    private static final char FIELD_MISS  = 'M';
+    private static final char FIELD_HIT   = 'H';
     
     public static Map<Integer, Map<Integer, Character>> createShipMap(IBoard board) {
         
         Map<Integer, Map<Integer, Character>> shipMap = initMap();
-        System.out.println(shipMap);
         IShip[] shipList = board.getShipList();
         for(IShip ship : shipList) {
             if(null == ship)
                 continue;
-            if(ship.getSize() == SHIP_DUMMY) {
-                System.out.println("skip Ship ..");
-                continue;
-            }
-            System.out.println("richtiges schiff..");
             if(ship.isOrientation()) {
                 int y = ship.getY();
                 for(int x = ship.getX(); x < (ship.getX() + ship.getSize()); x++) {
@@ -41,7 +35,31 @@ public class Converter {
                 }
             }
         }
-        System.out.println(shipMap);
+        return shipMap;
+    }
+    
+    
+    public static Map<Integer, Map<Integer, Character>> createShootMap(IBoard board, boolean hideShips) {
+        Map<Integer, Map<Integer, Character>> shipMap = createShipMap(board);
+        
+        for (int x = 0; x < StatCollection.STANDARD_HEIGHT_LENGTH; x++) {
+            for (int y = 0; y < StatCollection.STANDARD_HEIGHT_LENGTH; y++) {
+                if (board.isHit(x, y)) {
+                    if (shipMap.get(x).get(y).equals(FIELD_SHIP)) {
+                        shipMap.get(x).remove(y);
+                        shipMap.get(x).put(y,FIELD_HIT);
+                    } else {
+                        shipMap.get(x).remove(y);
+                        shipMap.get(x).put(y, FIELD_MISS);
+                    }
+                } else {
+                    if(hideShips && shipMap.get(x).get(y).equals(FIELD_SHIP)) {
+                        shipMap.get(x).remove(y);
+                        shipMap.get(x).put(y, FIELD_EMPTY);
+                    }
+                }
+            }
+        }
         return shipMap;
     }
     
