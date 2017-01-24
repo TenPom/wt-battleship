@@ -27,5 +27,3 @@ GET     /websocket                  controllers.MainController.webSocket()
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /javascriptRoutes           controllers.MainController.jsRoutes()
-
-GET     /webSocket.js               controllers.MainController.webSocketRender()
