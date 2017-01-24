@@ -153,10 +153,6 @@ public class MainController extends Controller {
             ).as("text/javascript");
     }
 	
-	public Result webSocketRender() {
-	    return ok(views.js.websocket.render());
-	}
-	
 	 public LegacyWebSocket<String> webSocket() {
 	    return WebSocket.whenReady((in,out) -> websocketService.startWebsocket(in, out));
 	 }
