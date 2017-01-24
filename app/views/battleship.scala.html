@@ -8,40 +8,13 @@
 
     <script src="@routes.Assets.versioned("/javascripts/webSocket.js")"></script>
 
-    <script language="JavaScript"> 
-    
-        function setCords(col, row) {
-            
-            row = String.fromCharCode("a".charCodeAt(0) + row);
-
-            
-    	    document.getElementById("horizontal").onclick = function() {
-    	        $.post("/json/" + row + " " + col + " horizontal");
-    	    }
-    	    
-    	    document.getElementById("vertical").onclick = function() {
-    	        $.post("/json/" + row + " " + col + " vertical");
-                 
-    	    }
-       	}
-       	
-       	function shoot(col, row) {
-       	    row = String.fromCharCode("a".charCodeAt(0) + row);
-       	    
-            $.post("/json/" + row + " " + col, function (data) {
-                    var msg = JSON.parse(data);
-    	    });
-       	}
-      
-    </script>
-   
 @********************************************* INFO ****************************************************@
    
     <div class="row">
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4">
             <div class="alert alert-info alert-dismissable text-center" id="playerinfo">
-                wait for opponent!
+                Searching for worthy opponent!
             </div>
         </div>
         

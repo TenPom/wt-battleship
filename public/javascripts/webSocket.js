@@ -80,7 +80,7 @@ var handleMessage = function handleMessage(message) {
         switch (msg.type) {
             case messageType.WAIT:
                 myTurn = false;
-                setPlayerInfo("Game is about to begin");
+                setPlayerInfo("This is not your turn. Wait for your opponent");
                 break;
             case messageType.CHAT: 
                 displayChatMessage(message);
@@ -95,7 +95,7 @@ var handleMessage = function handleMessage(message) {
             case messageType.FINALPLACE1:
             case messageType.FINALPLACE2:
                 myTurn = true;
-                setPlayerInfo("Place your ships");
+                setPlayerInfo("Place your ships on the right side.");
                 fillField(matrix_opponent, msg.boardmap);
                 setPlaceFunction(matrix_opponent);
                 break;
@@ -103,7 +103,7 @@ var handleMessage = function handleMessage(message) {
             case messageType.SHOOT2:
                 removeOnclickFunction(matrix_opponent);
                 myTurn = true;
-                setPlayerInfo("Shoot");
+                setPlayerInfo("Shoot the hell out of your opponent!");
                 setShootFunction(matrix_self);
                 fillField(matrix_self, msg.ownMap);
                 fillField(matrix_opponent, msg.opponentMap);
@@ -124,6 +124,8 @@ var handleMessage = function handleMessage(message) {
                 }
                 fillField(matrix_self, msg.ownMap);
                 fillField(matrix_opponent, msg.opponentMap);
+                removeOnclickFunction(matrix_self);
+                removeOnclickFunction(matrix_opponent);
                 break;
             default: break;
         }
@@ -131,7 +133,7 @@ var handleMessage = function handleMessage(message) {
 
 function sendMessage(message) {
     if (myTurn) {
-        console.log("Sending Message to Server: " + message);
+        //console.log("Sending Message to Server: " + message);
         socket.send(message);
     }
 }
@@ -153,7 +155,7 @@ function displayChatMessage(message) {
 }
 
 function setPlayerInfo(text) {
-    $('#playinfo').text = text;
+    $('#playerinfo').text(text);
 }
 
 function fillField(matrix, boardmap) {
@@ -177,6 +179,10 @@ function placeShip() {
     return function () {
         sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " true");
     };
+}
+
+function placeShip2(orientation) {
+    sendMessage(this.getAttribute("row") + " " + this.getAttribute("col") + " " + orientation);
 }
 
 function setShootFunction(matrix) {
