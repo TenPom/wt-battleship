@@ -25,18 +25,6 @@ $(document).ready(function () {
     createGamefield(matrix_self, true);
     createGamefield(matrix_opponent, false);
     
-    
-    var menu = document.getElementById('menu');
-    var menuitem = document.createElement('li');
-    var link = document.createElement('a');
-    link.setAttribute("class", "hvr-grow");
-    link.innerHTML = "Restart Game";
-    link.onclick = function() {
-        sendMessage("RESTART");
-    };
-    menuitem.appendChild(link);
-    menu.appendChild(menuitem);
-    
     //Chat mit Enter bestätigen
     $('#chatInput').keypress(function(key) {
         if (key.which == 13) {
@@ -164,9 +152,9 @@ function fillField(matrix, boardmap) {
     for(var row = 0; row < matrix.length; row++) {
        for (var col = 0; col < matrix.length; col++) {
             matrix[row][col].setAttribute("color", boardmap[row][col]);
-            if(boardmap[row][col] == "S")
+            if(boardmap[row][col] == "S" || boardmap[row][col] == "H")
                 matrix[row][col].setAttribute("icon", shipIcon);
-            if(boardmap[row][col] == "S")
+            else if(boardmap[row][col] == "M")
                 matrix[row][col].setAttribute("icon", hitIcon);
        }
     }
