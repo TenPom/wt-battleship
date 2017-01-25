@@ -76,7 +76,6 @@ public class AuthenticationController {
     }
     
     public Result googleLogin(String email) {
-        System.out.println("google login: " + email);
         session("google", "true");
         session("email", email);
         return HOME;

@@ -53,7 +53,6 @@ public class MainController extends Controller {
 	public Result battleship() {
 	    String email = session("email");
 	    
-	    System.out.println(session("google") + " email: " + email);
 	    if (null != session("google")) {
             return ok(views.html.battleship.render(email));
         }

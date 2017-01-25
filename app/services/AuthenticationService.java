@@ -8,7 +8,6 @@ public class AuthenticationService extends Security.Authenticator {
 
         @Override
         public String getUsername(Http.Context ctx) {
-            System.out.println("bla:: " + ctx.session().get("email"));
             return ctx.session().get("email");
         }
 

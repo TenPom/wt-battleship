@@ -18,7 +18,6 @@
             is: 'google-login',
             handleSignIn: function (response) {
                 var username = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getEmail();
-                console.log("Username: " + username);
                 $.ajax(jsRoutes.controllers.AuthenticationController.googleLogin(username));
                 window.location = "/";
             },
