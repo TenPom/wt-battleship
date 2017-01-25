@@ -2,28 +2,30 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
+# MainController
+
 GET     /                           controllers.MainController.battleship()
-
-GET     /login                      controllers.MainController.login()
-POST    /login                      controllers.MainController.authenticate()
-
-GET 	/logout						controllers.MainController.logout()
-
-GET     /signup                     controllers.MainController.signupForm()
-POST    /signup                     controllers.MainController.signup()
-
-GET     /battleship                 controllers.MainController.battleship()
 
 GET     /rules                      controllers.MainController.rules()
 
-GET     /battleship/:command        controllers.MainController.wuiTuiInterface(command:String)
-
-POST     /json/:commandline         controllers.MainController.jsonCommand(commandline:String)
-
 GET     /websocket                  controllers.MainController.webSocket()
 
+#AuthenticationController
+
+GET     /login                      controllers.AuthenticationController.login()
+
+POST    /login                      controllers.AuthenticationController.authenticate()
+
+GET 	/logout						controllers.AuthenticationController.logout()
+
+GET     /signup                     controllers.AuthenticationController.signupForm()
+
+POST    /signup                     controllers.AuthenticationController.signup()
+
+POST    /googleLogin/:email         controllers.AuthenticationController.googleLogin(email: String)
+
 # Map static resources from the /public folder to the /assets URL path
+
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /javascriptRoutes           controllers.MainController.jsRoutes()

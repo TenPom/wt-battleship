@@ -1,11 +1,15 @@
 package controllers;
 
 import models.GameInstance;
+import models.User;
+import services.UserService;
+import services.AuthenticationService;
 
 import java.util.Map;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 import play.mvc.Result;
@@ -37,110 +41,41 @@ import de.htwg.battleship.controller.IMasterController;
 
 public class MainController extends Controller {
 	
+	private static Result LOGIN = redirect(routes.AuthenticationController.login());
 	
+    private static UserService userService = UserService.getInstance();
 	
 	private static Map<String, IMasterController> controllers = new HashMap<>();
 	
 	private static Map<String, String> users = new HashMap<>();
 	
-	@play.mvc.Security.Authenticated(Secured.class)
+	@play.mvc.Security.Authenticated(AuthenticationService.class)
 	public Result battleship() {
 	    String email = session("email");
-	    IMasterController controller = controllers.get(email);
-	    if(null == controller) {
-	        session().clear();
-	        return this.login();
-	    }
-	    return ok(views.html.battleship.render(controller, email));
+	    
+	    System.out.println(session("google") + " email: " + email);
+	    if (null != session("google")) {
+            return ok(views.html.battleship.render(email));
+        }
+        
+        Optional<User> user = userService.getUserByMail(email);
+        System.out.println(user.isPresent());
+        if (!user.isPresent()) {
+            session().clear();
+            return LOGIN;
+        }
+	    return ok(views.html.battleship.render(email));
 	}
-	
-	public Result login() {
-	    return ok(views.html.login.render(Form.form(User.class)));
-	}
-	
-	public Result logout() {
-        String email = session("email");
-        controllers.remove(email);
-    	session().clear();
-    	return redirect(routes.MainController.battleship());
-    }
-	
-	 public Result signupForm() {
-        return ok(views.html.signup.render(Form.form(User.class)));
-    }
 	
 	public Result rules() {
 	    return ok(views.html.rules.render());
 	}
-
-	public Result wuiTuiInterface(String command) {
-		TUI tui = Battleship.getInstance().getTui();
-		tui.processInputLine(command);
-		String email = session("email");
-	    IMasterController controller = controllers.get(email);
-		return ok(views.html.battleship.render(controller, email));
-	}
-	
-	public Result jsonCommand(String command) {
-	    String email = session("email");
-        IMasterController controller = controllers.get(email);
-        System.out.println("jsonCommand: " + command);
-        //controller.processInputLine(command);
-        return ok(views.html.battleship.render(controller, email));
-	}
-	
-	public Result authenticate() {
-        Form<User> loginform = DynamicForm.form(User.class).bindFromRequest();
-
-        User user = User.authenticate(loginform.get());
-
-        if (loginform.hasErrors() || user == null) {
-            ObjectNode response = Json.newObject();
-            response.put("success", false);
-            response.put("errors", loginform.errorsAsJson());
-            if (user == null) {
-                flash("errors", "Wrong username or password");
-            }
-
-            return badRequest(views.html.login.render(loginform));
-        } else {
-            session().clear();
-            session("email", user.email);
-            String email = session("email");
-            IMasterController controller = Battleship.getInstance().getController();
-            controllers.put(email,controller);
-            return redirect(routes.MainController.battleship());
-        }
-    }
-    
-    public Result signup() {
-        Form<User> loginform = DynamicForm.form(User.class).bindFromRequest();
-
-        ObjectNode response = Json.newObject();
-        User account = loginform.get();
-        boolean exists = users.containsKey(account.email);
-
-        if (loginform.hasErrors() || exists) {
-            response.put("success", false);
-            response.put("errors", loginform.errorsAsJson());
-            if (exists) {
-                flash("errors", "Account already exists");
-            }
-
-            return badRequest(views.html.signup.render(loginform));
-        } else {
-            users.put(loginform.get().email, loginform.get().password);
-            session().clear();
-            session("email", loginform.get().email);
-            return redirect(routes.MainController.battleship());
-        }
-    }
    
     public Result jsRoutes() {
         return ok(
-            JavaScriptReverseRouter.create("jsRoutes", 
-                routes.javascript.MainController.authenticate(),
-                routes.javascript.MainController.logout())
+            JavaScriptReverseRouter.create("jsRoutes",
+                routes.javascript.AuthenticationController.googleLogin(),
+                routes.javascript.AuthenticationController.logout())
             ).as("text/javascript");
     }
 	
@@ -150,37 +85,6 @@ public class MainController extends Controller {
 	
 	//---------------------- Hilfsklassen -----------------------------
 	
-	public static class User {
-        public String email;
-        public String password;
-
-        public User() { }
-
-        private User(final String email, final String password) {
-            this.email = email;
-            this.password = password;
-        }
-
-     	public static User authenticate(User user){
-     	    if (user != null && users.containsKey(user.email) && users.get(user.email).equals(user.password)) {
-     	        return new User(user.email, user.password);
-     	    }
-
-    	    return null;
-    	}
-   }
 	
 	
-	public static class Secured extends Security.Authenticator {
-
-        @Override
-        public String getUsername(Context ctx) {
-            return ctx.session().get("email");
-        }
-
-        @Override
-        public Result onUnauthorized(Context ctx) {
-            return redirect(routes.MainController.login());
-        }
-    }
 }

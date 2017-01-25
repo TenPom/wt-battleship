@@ -1,4 +1,4 @@
-@(form: play.data.Form[MainController.User])
+@(form: play.data.Form[models.User])
 
 @main("Login to Battleship", "") {
 
@@ -19,7 +19,7 @@
     
     <div class="row">
         <div class="well col-md-6 col-md-offset-3">
-        @helper.form(routes.MainController.authenticate) {
+        @helper.form(routes.AuthenticationController.authenticate) {
             @if(form.hasGlobalErrors) {
                 <div class="alert alert-success">
                     @form.globalError.message
@@ -38,37 +38,11 @@
             
             <div class="btn-group">
                 <button id="schrift" type="submit" class="btn btn-default hvr-grow">Submit</button>
-                <a id="schrift" type="button" class="btn btn-default hvr-grow" href="@routes.MainController.signup">Signup as new User</a>
+                <a id="schrift" type="button" class="btn btn-default hvr-grow" href="@routes.AuthenticationController.signup">Signup as new User</a>
             </div>
             
             <div class="col">
-                <div class="g-signin2"
-                  data-scope="https://www.googleapis.com/auth/plus.login"
-                  data-redirecturi="postmessage"
-                  data-accesstype="offline"
-                  data-onsuccess="onSignIn"
-                  data-onfailure="onSignInFailure">
-                </div>
-    
-    
-    
-               <script>
-                  function onSignIn(googleUser) {
-                    window.location.href = "http://localhost:9000/"
-                    // Useful data for your client-side scripts:
-                    var profile = googleUser.getBasicProfile();
-                    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-                    console.log('Full Name: ' + profile.getName());
-                    console.log('Given Name: ' + profile.getGivenName());
-                    console.log('Family Name: ' + profile.getFamilyName());
-                    console.log("Image URL: " + profile.getImageUrl());
-                    console.log("Email: " + profile.getEmail());
-            
-                    // The ID token you need to pass to your backend:
-                    var id_token = googleUser.getAuthResponse().id_token;
-                    console.log("ID Token: " + id_token);
-                  };
-                </script>
+               <google-login></google-login>
             </div>
         }
 
