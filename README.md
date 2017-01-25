@@ -1,6 +1,6 @@
 # WT-Battleship
 ## Web User Interface for [Battleship](https://github.com/TenPom/Battleship)
-### Hostet on [Heroku](https://www.heroku.com/) at [wt-battleship.herokuapp.com](www.wt-battleship.herokuapp.com)
+### Hostet on [Heroku](https://www.heroku.com/) at [wt-battleship.herokuapp.com](http://wt-battleship.herokuapp.com)
 
 ### Used technologies:
 * [HTML](http://www.w3schools.com/html/default.asp) & [CSS](http://www.w3schools.com/css/default.asp)
