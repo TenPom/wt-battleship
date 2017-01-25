@@ -14,7 +14,7 @@ initMatrix(matrix_self);
 initMatrix(matrix_opponent);
 
 var shipIcon = "maps:directions-boat";
-var hitIcon  = "icons:clear";
+var hitIcon  = "icons:close";
 
 $(document).ready(function () {
  
@@ -164,6 +164,10 @@ function fillField(matrix, boardmap) {
     for(var row = 0; row < matrix.length; row++) {
        for (var col = 0; col < matrix.length; col++) {
             matrix[row][col].setAttribute("color", boardmap[row][col]);
+            if(boardmap[row][col] == "S")
+                matrix[row][col].setAttribute("icon", shipIcon);
+            if(boardmap[row][col] == "S")
+                matrix[row][col].setAttribute("icon", hitIcon);
        }
     }
     Polymer.updateStyles();

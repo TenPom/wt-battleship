@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
@@ -8,9 +8,9 @@
 <dom-module id="gamefield-button">
 
     <template>
-    <paper-button raised class$="{{color}} hvr-grow"><iron-icon icon$="{{icons}}"></iron-icon></paper-button>
+    <paper-icon-button class$="{{color}} hvr-grow" icon="{{_icon(icon)}}"></paper-icon-button>
         <style is="custom-style">
-          paper-button {
+          paper-icon-button {
               height: 30px;
               margin: auto;
 	          cursor: crosshair;
@@ -18,59 +18,60 @@
 	          z-index: 10;
 	          margin-top: 2px;
           }
-          paper-button.O {
+          paper-icon-button.O {
             background: blue;
             color: white;
           }
-          paper-button.M {
+          paper-icon-button.M {
             background: red;
             color: white;
           }
-          paper-button.H {
+          paper-icon-button.H {
             background: green;
             color: white;
           }
-          paper-button.S {
-            background: black;
+          paper-icon-button.S {
+            background: blue;
             color: white;
           }
-          paper-button.T {
-              background: red;
-              color: white;
-          }
-
         </style>
-        
-            
     </template>
     
-    <script>
+<script>
+
     Polymer({
       is: 'gamefield-button',
       
         properties: {
-            icons: String,
-                color: {
-                    type: String,
-                    value: "O"
-                },
+            icon: {
+                type: String,
+                value: ""
+            },
+            color: {
+                type: String,
+                value: "O"
+            },
             row: {
                 type: String,
                 value: "0"
             },
-            
             col: {
                 type: String,
                 value: "0"
             }
         },
         
-        attached: function() {
+        _icon: function(icon) {
+            //console.log(this.color);
+            if(this.color == "O")
+                this.icon = icon;
             if(this.color == "H" || this.color == "S"){
-                this.icons = "maps:directions-boat";
-            }else if(this.color == "M"){
-                this.icons = "icons:clear";
+                this.icon = "maps:directions-boat";
+            } else if(this.color == "M"){
+                this.icon = "icons:clear";
             }
+            console.log(this.icon);
+            return this.icon;
         }
     });
   </script>
