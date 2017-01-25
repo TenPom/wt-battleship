@@ -209,4 +209,5 @@ div {
 
 #chatView {
     pointer-events: none;
+    margin-top: 20px;
 }
